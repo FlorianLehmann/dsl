@@ -1,4 +1,4 @@
-application redButton
+application verySimpleAlarm
 
 # Declaring bricks
 sensor button: 9
@@ -7,7 +7,7 @@ actuator led: 12
 # Declaring states
 on {
     led <= HIGH
-    button is HIGH => off
+    after 800 => off
 }
 
 -> off {
