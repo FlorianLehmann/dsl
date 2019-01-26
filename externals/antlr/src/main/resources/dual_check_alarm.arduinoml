@@ -1,0 +1,32 @@
+application dual_checker
+
+# Declaring bricks
+sensor button1: 8
+sensor button2: 9
+actuator led: 12
+
+# Declaring states
+
+-> off_off {
+    led <= LOW
+    button1 is HIGH => on_off
+    button2 is HIGH => off_on
+}
+
+on_off {
+    led <= LOW
+    button1 is LOW => off_off
+    button2 is HIGH => on_on
+}
+
+off_on {
+    led <= LOW
+    button1 is HIGH => on_on
+    button2 is LOW => off_off
+}
+
+on_on {
+    led <= HIGH
+    button1 is LOW => off_on
+    button2 is LOW => on_off
+}

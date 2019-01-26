@@ -15,9 +15,9 @@ bricks          :   (sensor|actuator)+;
     location    :   id=IDENTIFIER ':' port=PORT_NUMBER;
 
 states          :   state+;
-    state       :   initial? name=IDENTIFIER '{'  action+ transition '}';
+    state       :   initial? name=IDENTIFIER '{'  action+ transition+ '}';
     action      :   receiver=IDENTIFIER '<=' value=SIGNAL;
-    transition  :   trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER ;
+    transition  :   trigger=IDENTIFIER 'is' value=SIGNAL '=>' next=IDENTIFIER;
     initial     :   '->';
 
 /*****************
@@ -25,7 +25,7 @@ states          :   state+;
  *****************/
 
 PORT_NUMBER     :   [1-9] | '11' | '12';
-IDENTIFIER      :   LOWERCASE (LOWERCASE|UPPERCASE)+;
+IDENTIFIER      :   LOWERCASE (LOWERCASE|UPPERCASE|NUMBER|UNDERSCORE)+;
 SIGNAL          :   'HIGH' | 'LOW';
 
 /*************
@@ -34,6 +34,8 @@ SIGNAL          :   'HIGH' | 'LOW';
 
 fragment LOWERCASE  : [a-z];                                 // abstract rule, does not really exists
 fragment UPPERCASE  : [A-Z];
+fragment NUMBER     : [0-9];
+fragment UNDERSCORE : '_';
 NEWLINE             : ('\r'? '\n' | '\r')+      -> skip;
 WS                  : ((' ' | '\t')+)           -> skip;     // who cares about whitespaces?
 COMMENT             : '#' ~( '\r' | '\n' )*     -> skip;     // Single line comments, starting with a #
