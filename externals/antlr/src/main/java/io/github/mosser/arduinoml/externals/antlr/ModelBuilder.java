@@ -4,14 +4,14 @@ import io.github.mosser.arduinoml.externals.antlr.grammar.*;
 
 
 import io.github.mosser.arduinoml.kernel.App;
-import io.github.mosser.arduinoml.kernel.behavioral.Action;
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.behavioral.Transition;
+import io.github.mosser.arduinoml.kernel.behavioral.*;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 import io.github.mosser.arduinoml.kernel.structural.Sensor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModelBuilder extends ArduinomlBaseListener {
@@ -35,12 +35,27 @@ public class ModelBuilder extends ArduinomlBaseListener {
     private Map<String, Sensor>   sensors   = new HashMap<>();
     private Map<String, Actuator> actuators = new HashMap<>();
     private Map<String, State>    states  = new HashMap<>();
-    private Map<String, Binding>  bindings  = new HashMap<>();
+    private Map<String, List<SignalBinding>> signalBindings = new HashMap<>();
+    private Map<String, List<TemporalBinding>> temporalBindings = new HashMap<>();
+    private Map<String, List<AndBinding>> andBindings = new HashMap<>();
 
-    private class Binding { // used to support state resolution for transitions
+    private class SignalBinding { // used to support state resolution for transitions
         String to; // name of the next state, as its instance might not have been compiled yet
         Sensor trigger;
         SIGNAL value;
+    }
+
+    private class TemporalBinding { // used to support state resolution for transitions
+        String to; // name of the next state, as its instance might not have been compiled yet
+        long delay;
+    }
+
+    private class AndBinding {
+        String to;
+        Sensor leftTrigger;
+        SIGNAL leftValue;
+        Sensor rightTrigger;
+        SIGNAL rightValue;
     }
 
     private State currentState = null;
@@ -57,12 +72,33 @@ public class ModelBuilder extends ArduinomlBaseListener {
 
     @Override public void exitRoot(ArduinomlParser.RootContext ctx) {
         // Resolving states in transitions
-        bindings.forEach((key, binding) ->  {
-            Transition t = new Transition();
-            t.setSensor(binding.trigger);
-            t.setValue(binding.value);
-            t.setNext(states.get(binding.to));
-            states.get(key).setTransition(t);
+        signalBindings.forEach((key, bindings) ->  {
+            for (SignalBinding binding : bindings) {
+                SignalTransition t = new SignalTransition();
+                t.setSensor(binding.trigger);
+                t.setValue(binding.value);
+                t.setNext(states.get(binding.to));
+                states.get(key).addTransition(t);
+            }
+        });
+        temporalBindings.forEach((key, bindings) ->  {
+            for (TemporalBinding binding : bindings) {
+                TimeTransition t = new TimeTransition();
+                t.setTime(binding.delay);
+                t.setNext(states.get(binding.to));
+                states.get(key).addTransition(t);
+            }
+        });
+        andBindings.forEach((key, bindings) ->  {
+            for (AndBinding binding : bindings) {
+                And t = new And();
+                t.setLeftSensor(binding.leftTrigger);
+                t.setLeftValue(binding.leftValue);
+                t.setRightSensor(binding.rightTrigger);
+                t.setRightValue(binding.rightValue);
+                t.setNext(states.get(binding.to));
+                states.get(key).addTransition(t);
+            }
         });
         this.built = true;
     }
@@ -113,13 +149,34 @@ public class ModelBuilder extends ArduinomlBaseListener {
     }
 
     @Override
-    public void enterTransition(ArduinomlParser.TransitionContext ctx) {
-        // Creating a placeholder as the next state might not have been compiled yet.
-        Binding toBeResolvedLater = new Binding();
+    public void enterSignal_transition(ArduinomlParser.Signal_transitionContext ctx) {
+        SignalBinding toBeResolvedLater = new SignalBinding();
         toBeResolvedLater.to      = ctx.next.getText();
         toBeResolvedLater.trigger = sensors.get(ctx.trigger.getText());
         toBeResolvedLater.value   = SIGNAL.valueOf(ctx.value.getText());
-        bindings.put(currentState.getName(), toBeResolvedLater);
+        signalBindings.putIfAbsent(currentState.getName(), new ArrayList<>());
+        signalBindings.get(currentState.getName()).add(toBeResolvedLater);
+    }
+
+    @Override
+    public void enterTemporal_transition(ArduinomlParser.Temporal_transitionContext ctx) {
+        TemporalBinding toBeResolvedLater = new TemporalBinding();
+        toBeResolvedLater.to      = ctx.next.getText();
+        toBeResolvedLater.delay   = Long.valueOf(ctx.delay.getText());
+        temporalBindings.putIfAbsent(currentState.getName(), new ArrayList<>());
+        temporalBindings.get(currentState.getName()).add(toBeResolvedLater);
+    }
+
+    @Override
+    public void enterAnd_transition(ArduinomlParser.And_transitionContext ctx) {
+        AndBinding toBeResolvedLater = new AndBinding();
+        toBeResolvedLater.to      = ctx.next.getText();
+        toBeResolvedLater.leftTrigger = sensors.get(ctx.left_trigger.getText());
+        toBeResolvedLater.leftValue   = SIGNAL.valueOf(ctx.left_value.getText());
+        toBeResolvedLater.rightTrigger = sensors.get(ctx.right_trigger.getText());
+        toBeResolvedLater.rightValue   = SIGNAL.valueOf(ctx.right_value.getText());
+        andBindings.putIfAbsent(currentState.getName(), new ArrayList<>());
+        andBindings.get(currentState.getName()).add(toBeResolvedLater);
     }
 
     @Override

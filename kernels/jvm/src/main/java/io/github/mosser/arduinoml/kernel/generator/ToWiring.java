@@ -30,7 +30,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 		w("}\n");
 
-		w("long time = 0; long debounce = 200;\n");
+		w("long time = 0; long timeSinceCurrentState = 0; long debounce = 200;\n");
 
 		for(State state: app.getStates()){
 			state.accept(this);
@@ -61,23 +61,37 @@ public class ToWiring extends Visitor<StringBuffer> {
 			action.accept(this);
 		}
 
-		if (state.getTransition() != null) {
+		if (state.hasTransition()) {
 			w("  boolean guard = millis() - time > debounce;");
 			context.put(CURRENT_STATE, state);
-			state.getTransition().accept(this);
+			for (Transition transition : state.getTransitions()) {
+				transition.accept(this);
+			}
+
+			// default case
+			w("  else {");
+			w(String.format("    state_%s();",((State) context.get(CURRENT_STATE)).getName()));
+			w("  }");
+
 			w("}\n");
 		}
 
 	}
 
 	@Override
-	public void visit(Transition transition) {
+	public void visit(SignalTransition transition) {
 		w(String.format("  if( digitalRead(%d) == %s && guard ) {",
 				transition.getSensor().getPin(),transition.getValue()));
 		w("    time = millis();");
 		w(String.format("    state_%s();",transition.getNext().getName()));
-		w("  } else {");
-		w(String.format("    state_%s();",((State) context.get(CURRENT_STATE)).getName()));
+		w("  }");
+	}
+
+	@Override
+	public void visit(TimeTransition transition) {
+		w(String.format("  if( millis() - time > %s && guard ) {", transition.getTime()));
+		w("    time = millis();");
+		w(String.format("    state_%s();",transition.getNext().getName()));
 		w("  }");
 	}
 
@@ -86,4 +100,13 @@ public class ToWiring extends Visitor<StringBuffer> {
 		w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
 	}
 
+	@Override
+	public void visit(And and) {
+		w(String.format("  if( digitalRead(%d) == %s && digitalRead(%d) == %s && guard ) {",
+				and.getLeftSensor().getPin(), and.getLeftValue(),
+				and.getRightSensor().getPin(), and.getRightValue()));
+		w("    time = millis();");
+		w(String.format("    state_%s();", and.getNext().getName()));
+		w("  }");
+	}
 }
