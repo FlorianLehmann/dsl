@@ -1,4 +1,4 @@
-application multiStateAlarm
+application stateBasedAlarm
 
 # Declaring bricks
 sensor button: 9
@@ -16,3 +16,5 @@ led {
     led <= LOW
     button is HIGH => led
 }
+
+
