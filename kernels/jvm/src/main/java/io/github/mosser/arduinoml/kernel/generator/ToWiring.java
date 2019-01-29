@@ -100,4 +100,13 @@ public class ToWiring extends Visitor<StringBuffer> {
 		w(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
 	}
 
+	@Override
+	public void visit(And and) {
+		w(String.format("  if( digitalRead(%d) == %s && digitalRead(%d) == %s && guard ) {",
+				and.getLeftSensor().getPin(), and.getLeftValue(),
+				and.getRightSensor().getPin(), and.getRightValue()));
+		w("    time = millis();");
+		w(String.format("    state_%s();", and.getNext().getName()));
+		w("  }");
+	}
 }
