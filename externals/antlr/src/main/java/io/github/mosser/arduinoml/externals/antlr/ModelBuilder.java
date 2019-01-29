@@ -2,7 +2,6 @@ package io.github.mosser.arduinoml.externals.antlr;
 
 import io.github.mosser.arduinoml.externals.antlr.grammar.*;
 
-
 import io.github.mosser.arduinoml.kernel.App;
 import io.github.mosser.arduinoml.kernel.behavioral.*;
 import io.github.mosser.arduinoml.kernel.structural.Actuator;
