@@ -1,10 +1,7 @@
 package io.github.mosser.arduinoml.embedded.java.dsl;
 
 
-import io.github.mosser.arduinoml.kernel.behavioral.SignalTransition;
-import io.github.mosser.arduinoml.kernel.behavioral.State;
-import io.github.mosser.arduinoml.kernel.behavioral.TimeTransition;
-import io.github.mosser.arduinoml.kernel.behavioral.Transition;
+import io.github.mosser.arduinoml.kernel.behavioral.*;
 import io.github.mosser.arduinoml.kernel.structural.SIGNAL;
 
 import java.util.ArrayList;
@@ -30,6 +27,13 @@ public class TransitionBuilder {
         return new TransitionSignalBuilder(this, signalTransition);
     }
 
+    public TransitionAndBuilder multiple() {
+        And and = new And();
+        this.local = and;
+        parent.findState(source).addTransition(local);
+        return new TransitionAndBuilder(this, and);
+    }
+
     public TransitionBuilder after(long time) {
         TimeTransition timeTransition = new TimeTransition();
         this.local = timeTransition;
@@ -43,4 +47,7 @@ public class TransitionBuilder {
         return parent;
     }
 
+    public TransitionTableBuilder getParent() {
+        return parent;
+    }
 }
