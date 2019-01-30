@@ -58,7 +58,7 @@ public class Switch {
 
 		// Building the App
 		App theSwitch = new App();
-		theSwitch.setName("Switch!");
+		theSwitch.setName("Switch !");
 		theSwitch.setBricks(Arrays.asList(button, led ));
 		theSwitch.setStates(Arrays.asList(on, off));
 		theSwitch.setInitial(off);

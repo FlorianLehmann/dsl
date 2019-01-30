@@ -57,6 +57,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 	@Override
 	public void visit(State state) {
 		w(String.format("void state_%s() {",state.getName()));
+
 		for(Action action: state.getActions()) {
 			action.accept(this);
 		}
