@@ -27,10 +27,12 @@ public class TransitionBuilder {
         return new TransitionSignalBuilder(this, signalTransition);
     }
 
-    public TransitionAndBuilder multiple() {
+    public TransitionAndBuilder whenSensors(String sensor1, String sensor2) {
         And and = new And();
         this.local = and;
         parent.findState(source).addTransition(local);
+        and.setLeftSensor(parent.findSensor(sensor1));
+        and.setRightSensor(parent.findSensor(sensor2));
         return new TransitionAndBuilder(this, and);
     }
 

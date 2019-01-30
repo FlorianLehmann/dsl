@@ -51,7 +51,6 @@ public class Main {
 
 
         // SCENARIO 3
-        //PB
         // Pushing the  button once switch the system in a mode where the LED is switched on. Pushing it again switches it off.
         /*App myApp =
                 application("state-based alarm")
@@ -67,12 +66,12 @@ public class Main {
                             .from("initial").when("button").isHigh().goTo("led")
                             .from("led").when("button").isHigh().goTo("initial")
                         .endTransitionTable()
-                .build();
-*/
+                .build();*/
+
 
         // SCENARIO 4
-        /*
-        App myApp =
+
+        /*App myApp =
                 application("multi-state alarm")
                         .uses(sensor("button", 9))
                         .uses(actuator("buzzer", 11))
@@ -99,24 +98,16 @@ public class Main {
         App myApp =
                 application("red_button")
                         .uses(sensor("button", 9))
-                        .uses(actuator("buzzer", 11))
                         .uses(actuator("led", 12))
                         .hasForState("initial").initial()
                         .setting("led").toLow()
-                        .setting("buzzer").toLow()
-                        .endState()
-                        .hasForState("buzzer")
-                        .setting("buzzer").toHigh()
                         .endState()
                         .hasForState("led")
-                        .setting("buzzer").toLow()
                         .setting("led").toHigh()
                         .endState()
                         .beginTransitionTable()
-                        .from("initial").when("button").isHigh().goTo("buzzer")
-                        .from("initial").after(2000).goTo("buzzer")
-                        .from("buzzer").when("button").isHigh().goTo("led")
-                        .from("led").when("button").isHigh().goTo("initial")
+                        .from("initial").when("button").isHigh().goTo("led")
+                        .from("led").after(800).goTo("initial")
                         .endTransitionTable()
                         .build();
 
