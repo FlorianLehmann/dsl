@@ -5,15 +5,16 @@ class Transition :
     A transition between two states.
     """
 
-    def __init__(self, sensor, value, nextstate):
-        """
-        Constructor.
-
-        :param sensor: Sensor, sensor which value is checked to trigger the transition
-        :param value: SIGNAL, value that the sensor must have to trigger the transition
-        :param nextstate: State, state to change to when the transition is triggered
-        :return:
-        """
-        self.sensor = sensor
-        self.value = value
+    def __init__(self, nextstate, comparisons = []):
+        self.comparisons = comparisons
         self.nextstate = nextstate
+
+    def setup(self):
+        res = "\tif ("
+        
+        for comparison in self.comparisons:
+            res += comparison.setup() + " && "
+        
+        res += "guard) {\n\t\ttime = millis(); state_%s();\n\t}" % self.nextstate.name
+
+        return res

@@ -44,8 +44,7 @@ class State(NamedElement):
             rtr += "\tboolean guard =  millis() - time > debounce;\n"
         # generate code for the transition
         transition = self.transition
-        rtr += "\tif (digitalRead(%s) == %s && guard) {\n\t\ttime = millis(); state_%s();\n\t} else {\n\t\tstate_%s();\n\t}" \
-               % (transition.sensor.name, SIGNAL.value(transition.value), transition.nextstate.name, self.name)
+        rtr += transition.setup + "else {\n\t\tstate_%s();\n\t}" % (self.name)
         # end of state
         rtr += "\n}\n"
         return rtr
