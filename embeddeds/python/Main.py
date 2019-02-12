@@ -28,7 +28,7 @@ def demo1():
             .when("BUTTON").has_value(HIGH).go_to_state("off") \
         .get_contents()
 
-    print app
+    print(app)
 
 if __name__ == '__main__':
     demo1()
