@@ -15,15 +15,15 @@ def demo1():
     :return:
     """
     from pyArduinoML.methodchaining.AppBuilder import AppBuilder
-    from pyArduinoML.model.SIGNAL import HIGH, LOW
+    from pyArduinoML.model.SIGNAL import SIGNAL
 
     app = AppBuilder("Switch!").sensor("BUTTON").on_pin(9).actuator("LED").on_pin(12) \
         .state("off") \
-            .set("LED").to(LOW) \
-            .when("BUTTON").has_value(HIGH).go_to_state("on") \
+            .set("LED").to(SIGNAL.LOW) \
+            .when("BUTTON").has_value(SIGNAL.HIGH).go_to_state("on") \
         .state("on") \
-            .set("LED").to(HIGH) \
-            .when("BUTTON").has_value(HIGH).go_to_state("off") \
+            .set("LED").to(SIGNAL.HIGH) \
+            .when("BUTTON").has_value(SIGNAL.HIGH).go_to_state("off") \
         .get_contents()
 
     print(app)

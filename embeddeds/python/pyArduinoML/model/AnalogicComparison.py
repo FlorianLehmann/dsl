@@ -1,10 +1,9 @@
 from pyArduinoML.model.Comparison import Comparison
 
-from .SIGNAL import value
 from .Sensor import Sensor
-import AnalogicOperator
+from .AnalogicOperator import AnalogicOperator
 
-class AnalogicComparison(Comparison) :
+class AnalogicComparison(Comparison):
 
     def __init__(self, sensor: Sensor, value: int, operator: AnalogicOperator):
         self.sensor: Sensor = sensor
@@ -12,4 +11,4 @@ class AnalogicComparison(Comparison) :
         self.operator: AnalogicOperator = operator
 
     def setup(self):
-        return "analogRead(%s) %s %s" % (self.sensor.name, self.operator, value(self.value))
+        return "analogRead(%s) %s %s" % (self.sensor.name, self.operator, self.value)

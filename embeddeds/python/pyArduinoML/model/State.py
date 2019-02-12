@@ -41,7 +41,7 @@ class State(NamedElement):
         rtr += "void state_%s() {\n" % self.name
         # generate code for state actions
         for action in self.actions:
-            rtr += "\tdigitalWrite(%s, %s);\n" % (action.brick.name, SIGNAL.value(action.value))
+            rtr += "\tdigitalWrite(%s, %s);\n" % (action.brick.name, action.value.__str__())
             rtr += "\tboolean guard =  millis() - time > debounce;\n"
         # generate code for the transition
         transition = self.transition

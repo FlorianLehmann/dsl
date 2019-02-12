@@ -1,6 +1,6 @@
 __author__ = 'pascalpoizat'
 
-import SIGNAL
+from .SIGNAL import SIGNAL
 from .Brick import Brick
 
 class Action :
