@@ -7,7 +7,7 @@ Enumeration of signal values.
 LOW = 0
 HIGH = 1
 
-def value(signal):
+def value(signal: str):
     """
     Returns the string representation of a signal.
 

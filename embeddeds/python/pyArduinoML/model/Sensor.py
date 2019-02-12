@@ -8,7 +8,7 @@ class Sensor(Brick):
 
     """
 
-    def __init__(self, name, pin):
+    def __init__(self, name: str, pin: int):
         """
         Constructor.
 

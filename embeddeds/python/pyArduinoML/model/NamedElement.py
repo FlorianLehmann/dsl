@@ -6,11 +6,11 @@ class NamedElement:
 
     """
 
-    def __init__(self, name):
+    def __init__(self, name: str):
         """
         Constructor.
 
         :param name: String, name of the named element
         :return:
         """
-        self.name = name
+        self.name: str = name

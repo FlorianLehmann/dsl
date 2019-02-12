@@ -5,7 +5,7 @@ class Transition :
     A transition between two states.
     """
 
-    def __init__(self, nextstate, comparisons = []):
+    def __init__(self, nextstate: str, comparisons: list = []):
         self.comparisons = comparisons
         self.nextstate = nextstate
 

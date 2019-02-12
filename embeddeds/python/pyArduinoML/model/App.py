@@ -9,7 +9,7 @@ class App(NamedElement):
 
     """
 
-    def __init__(self, name, bricks=(), states=()):
+    def __init__(self, name: str, bricks: tuple=(), states: tuple=()):
         """
         Constructor.
 
@@ -19,8 +19,8 @@ class App(NamedElement):
         :return:
         """
         NamedElement.__init__(self, name)
-        self.bricks = bricks
-        self.states = states
+        self.bricks: tuple = bricks
+        self.states: tuple = states
 
     def __repr__(self):
         """

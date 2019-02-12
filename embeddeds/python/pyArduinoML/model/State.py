@@ -2,6 +2,7 @@ __author__ = 'pascalpoizat'
 
 from pyArduinoML.model.NamedElement import NamedElement
 from pyArduinoML.model import SIGNAL
+from .Transition import Transition
 
 class State(NamedElement):
     """
@@ -9,7 +10,7 @@ class State(NamedElement):
 
     """
 
-    def __init__(self, name, actions=(), transition=None):
+    def __init__(self, name: str, actions: tuple=(), transition: Transition=None):
         """
         Constructor.
 
@@ -19,10 +20,10 @@ class State(NamedElement):
         :return:
         """
         NamedElement.__init__(self, name)
-        self.transition = transition
-        self.actions = actions
+        self.transition: Transition = transition
+        self.actions: tuple = actions
 
-    def settransition(self, transition):
+    def settransition(self, transition: Transition):
         """
         Sets the transition of the state
         :param transition: Transition

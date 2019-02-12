@@ -1,13 +1,12 @@
 from pyArduinoML.model.Comparison import Comparison
-
+from .SIGNAL import value
 import SIGNAL
-
 
 class DiscreteComparison(Comparison) :
 
-    def __init__(self, sensor, value):
-        self.sensor = sensor
-        self.value = value
+    def __init__(self, sensor: str, value: SIGNAL):
+        self.sensor: str = sensor
+        self.value: SIGNAL = value
 
     def setup(self):
-        return "digitalRead(%s) == %s" % (self.sensor.name, SIGNAL.value(self.value))
+        return "digitalRead(%s) == %s" % (self.sensor.name, value(self.value))
