@@ -35,7 +35,7 @@ class Monitor():
 
         for brick in self.bricks:
             if isinstance(brick, Actuator):
-                code += "{ %s : %s }" % (brick.name, brick.value)
+                code += "{ %s : %s }" % (brick.name, brick.pin)
             
         
         code += "]}}\");"
