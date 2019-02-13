@@ -1,8 +1,9 @@
 __author__ = 'pascalpoizat'
 
 from pyArduinoML.model.Transition import Transition
-from pyArduinoML.methodchaining.UndefinedBrick import UndefinedBrick
-from pyArduinoML.methodchaining.UndefinedState import UndefinedState
+from pyArduinoML.model.TemporalComparison import TemporalComparison
+from pyArduinoML.model.AnalogicComparison import AnalogicComparison
+from pyArduinoML.model.DiscreteComparison import DiscreteComparison
 
 
 class TransitionBuilder:
@@ -33,6 +34,16 @@ class TransitionBuilder:
         self.value = value
         return self
 
+    def has_value(self, value):
+        """
+        Sets the action.
+
+        :param value: SIGNAL, state of the brick to trigger the transition
+        :return: TransitionBuilder, the builder
+        """
+        self.value = value
+        return self
+
     def go_to_state(self, next_state):
         """
         Sets the target state.
@@ -44,17 +55,8 @@ class TransitionBuilder:
         return self.root.root
 
     def get_contents(self, bricks, states):
-        """
-        Builds the transition.
+        
+        tempo = TemporalComparison(5000)
+        discrete = DiscreteComparison(bricks[self.sensor], self.value)
 
-        :param bricks: Map[String,Brick], the bricks of the application
-        :param states: Map[String,State], the states of the application
-        :return: Transition, the transition to build
-        :raises: UndefinedBrick, if the transition references an undefined brick
-        :raises: UndefinedState, if the transition references an undefined state
-        """
-        if self.sensor not in bricks.keys():
-            raise UndefinedBrick()
-        if self.next_state not in states.keys():
-            raise UndefinedState()
-        return Transition(bricks[self.sensor], self.value, states[self.next_state])
+        return Transition(states[self.next_state], [tempo, discrete])

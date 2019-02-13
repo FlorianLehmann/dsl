@@ -6,6 +6,8 @@ from pyArduinoML.methodchaining.TransitionBuilder import TransitionBuilder
 from pyArduinoML.methodchaining.StateActionBuilder import StateActionBuilder
 from pyArduinoML.methodchaining.UndefinedBrick import UndefinedBrick
 from pyArduinoML.methodchaining.UndefinedState import UndefinedState
+from pyArduinoML.model.TemporalComparison import TemporalComparison
+from pyArduinoML.model.DiscreteComparison import DiscreteComparison
 
 class StateBuilder:
     """
@@ -80,8 +82,10 @@ class StateBuilder:
             raise UndefinedState()
         if self.transition.next_state not in states.keys():
             raise UndefinedState()
-        transition = Transition(bricks[self.transition.sensor],
-                                self.transition.value,
-                                states[self.transition.next_state])
+
+        tempo = TemporalComparison(5000)
+        discrete = DiscreteComparison(bricks[self.transition.sensor], self.transition.value)
+
+        transition = Transition(states[self.transition.next_state], [tempo, discrete])
         states[self.state].transition = transition
 
