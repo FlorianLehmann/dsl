@@ -8,10 +8,12 @@ from pyArduinoML.model.AnalogicOperator import AnalogicOperator
 from pyArduinoML.model.App import App
 from pyArduinoML.model.DiscreteComparison import DiscreteComparison
 from pyArduinoML.model.DigitalSensor import DigitalSensor
+from pyArduinoML.model.Monitor import Monitor
 from pyArduinoML.model.SIGNAL import SIGNAL
 from pyArduinoML.model.State import State
 from pyArduinoML.model.TemporalComparison import TemporalComparison
 from pyArduinoML.model.Transition import Transition
+from pyArduinoML.model.Brick import Brick
 
 class _State:
     def __init__(self, name):
@@ -43,22 +45,25 @@ class Listener(ArduinomlListener):
         super().__init__()
         self.app = None
         self.name = None
+        self.monitor = None
         self.bricks = []
         self.states = []
 
     def exitRoot(self, ctx:ArduinomlParser.RootContext):
         self.states = tuple(state.bind(self.states) for state in self.states)
-        self.app = App(self.name, tuple(self.bricks), self.states)
+        self.app = App(self.name, tuple(self.bricks), self.states, self.monitor)
 
     def enterDeclaration(self, ctx:ArduinomlParser.DeclarationContext):
         self.name = ctx.name.text
 
     def enterSensor(self, ctx:ArduinomlParser.SensorContext):
         sensor = DigitalSensor(ctx.location().identifier.text, int(ctx.location().port.text))
+        self.checkDebugOption(sensor, ctx)
         self.bricks.append(sensor)
     
     def enterActuator(self, ctx:ArduinomlParser.ActuatorContext):
         actuator = Actuator(ctx.location().identifier.text, int(ctx.location().port.text))
+        self.checkDebugOption(actuator, ctx)
         self.bricks.append(actuator)
 
     def enterInitialMode(self, ctx:ArduinomlParser.InitialModeContext):
@@ -112,3 +117,9 @@ class Listener(ArduinomlListener):
     def enterTemporalComparison(self, ctx:ArduinomlParser.TemporalComparisonContext):
         delay = int(ctx.delay.text)
         self.states[-1].transitions[-1].comparaisons.append(TemporalComparison(delay))
+
+    def checkDebugOption(self, brick: Brick, ctx):
+        if ctx.debug() is not None:
+            if self.monitor is None:
+                self.monitor = Monitor()
+            self.monitor.addBrick(brick)
