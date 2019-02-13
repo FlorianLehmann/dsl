@@ -1,0 +1,23 @@
+application redButton
+
+sensor button: 9
+actuator led: 12
+
+
+-> on {
+    led <= HIGH
+    button is LOW => off
+}
+
+alternate {
+    led <= LOW
+    button < 100 => on
+    button is LOW => off
+    button is HIGH => on
+}
+
+
+off {
+    led <= LOW
+    AFTER 500 => on
+}
