@@ -2,11 +2,12 @@ from .Brick import Brick
 from .DigitalSensor import DigitalSensor
 from .AnalogSensor import AnalogSensor
 from .Actuator import Actuator
+import json
 
 class Monitor():
 
     def __init__(self):
-        self.bricks: list = []
+        self.bricks: list(tuple) = []
         # here we could also add mode and state
 
     def addBrick(self, brick: Brick):
@@ -17,27 +18,20 @@ class Monitor():
 
     def loop(self) -> str:
         code = "Serial.write(\""
+        data = {}
+        data['StateMachine'] = '<dotfile>'
+        data['Bricks'] = []
         
-        code += """{ \\
-                \\"StateMachine\\": \\"<dotfile>\\",\\"Bricks\\" : { \\
-                    Sensor : ["""
-
-        for i, brick in enumerate(self.bricks):
-            if i > 0:
-                code += ","
-
+        for i, (brick, mode) in enumerate(self.bricks):
             if isinstance(brick, DigitalSensor):
-                code += "DigitalSensor { %s : digitalRead(%s) }" % (brick.name, brick.pin)
+                brick = { "type": "DigitalSensor", brick.name: "digitalRead(" + str(brick.pin) +")", "mode": mode }
             elif isinstance(brick, AnalogSensor):
                 pass
-
-        code += "], Actuator : [ "
-
-        for brick in self.bricks:
-            if isinstance(brick, Actuator):
-                code += "{ %s : %s }" % (brick.name, brick.pin)
-            
+            elif isinstance(brick, Actuator):
+                brick = { "type": "Actuator", brick.name: brick.pin, "mode": mode }
+            data['Bricks'].append(brick)
         
-        code += "]}}\");"
+        code += json.dumps(data).replace('\"', '\\"')
+        code += "\");"
 
         return code
