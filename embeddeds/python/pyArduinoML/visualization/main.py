@@ -20,5 +20,9 @@ def processData(json):
 if __name__ == "__main__":
     serial = initArduino("dev/ttyACM0")
     while True:
-        command = serial.read()
+        command = ""
+        char = ""
+        while (char != "\x03"):
+            char = serial.read()
+            command = command + char
         processData(command)
