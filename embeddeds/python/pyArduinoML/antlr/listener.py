@@ -7,7 +7,7 @@ from pyArduinoML.model.AnalogicComparison import AnalogicComparison
 from pyArduinoML.model.AnalogicOperator import AnalogicOperator
 from pyArduinoML.model.App import App
 from pyArduinoML.model.DiscreteComparison import DiscreteComparison
-from pyArduinoML.model.Sensor import Sensor
+from pyArduinoML.model.DigitalSensor import DigitalSensor
 from pyArduinoML.model.SIGNAL import SIGNAL
 from pyArduinoML.model.State import State
 from pyArduinoML.model.TemporalComparison import TemporalComparison
@@ -54,7 +54,7 @@ class Listener(ArduinomlListener):
         self.name = ctx.name.text
 
     def enterSensor(self, ctx:ArduinomlParser.SensorContext):
-        sensor = Sensor(ctx.location().identifier.text, int(ctx.location().port.text))
+        sensor = DigitalSensor(ctx.location().identifier.text, int(ctx.location().port.text))
         self.bricks.append(sensor)
     
     def enterActuator(self, ctx:ArduinomlParser.ActuatorContext):
