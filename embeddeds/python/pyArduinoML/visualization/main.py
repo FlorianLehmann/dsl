@@ -1,4 +1,3 @@
-
 import serial
 
 
@@ -9,14 +8,17 @@ def initArduino(serialPort):
         print("Connection successful")
         return ser
     except:
-        newSerialPort = input("Connection failed. Input the name of your serial port and press enter :")
+        newSerialPort = input(
+            "Connection failed. Input the name of your serial port and press enter : ")
         return initArduino(newSerialPort)
 
+
 def processData(json):
+    print("hello")
 
 
 if __name__ == "__main__":
-    serial = initArduino("dev/ttyUSB0")
-    while True:    
+    serial = initArduino("dev/ttyACM0")
+    while True:
         command = serial.read()
         processData(command)
