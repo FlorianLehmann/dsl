@@ -1,6 +1,7 @@
 __author__ = 'pascalpoizat'
 
 from pyArduinoML.model.NamedElement import NamedElement
+from pyArduinoML.model.Monitor import Monitor
 
 class App(NamedElement):
     """
@@ -8,7 +9,7 @@ class App(NamedElement):
 
     """
 
-    def __init__(self, name: str, bricks: tuple=(), states: tuple=()):
+    def __init__(self, name: str, bricks: tuple=(), states: tuple=(), monitor: Monitor=None):
         """
         Constructor.
 
@@ -20,6 +21,7 @@ class App(NamedElement):
         NamedElement.__init__(self, name)
         self.bricks: tuple = bricks
         self.states: tuple = states
+        self.monitor: Monitor = monitor
 
     def __repr__(self):
         """
@@ -32,17 +34,29 @@ class App(NamedElement):
 
 %s
 
-void setup() {
-%s
-}
+void setup() { %s """ % ("\n".join(map(lambda b: b.declare(), self.bricks)),
+                        "\n".join(map(lambda b: b.setup(), self.bricks)))
+
+        if self.monitor is not None:
+            rtr += self.monitor.setup()
+
+        rtr += """
+        
+        }
 
 void (*functionPtr)() = state_%s;
 int state = LOW; int prev = HIGH;
 long time = 0; long debounce = 200;
 
 %s
-void loop() { (*functionPtr)(); }""" % ("\n".join(map(lambda b: b.declare(), self.bricks)),
-                                  "\n".join(map(lambda b: b.setup(), self.bricks)),
+void loop() { (*functionPtr)(); """ % (
                                   self.states[0].name,
                                   "\n".join(map(lambda s: s.setup(), self.states)))
+
+
+        if self.monitor is not None:
+            rtr += self.monitor.loop()
+        rtr += "}" 
+
+
         return rtr
