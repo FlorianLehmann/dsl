@@ -5,9 +5,10 @@ root                        :   declaration bricks states EOF;
 declaration                 :   'application' name=IDENTIFIER;
 
 bricks                      :   (sensor|actuator)+;
-    sensor                  :   'sensor'   location ;
-    actuator                :   'actuator' location ;
+    sensor                  :   'sensor'   location debug?;
+    actuator                :   'actuator' location debug?;
     location                :   identifier=IDENTIFIER ':' port=PORT_NUMBER;
+    debug                   :   'DEBUG' debug_type=DEBUG_TYPE;
 
 modes                       :   customMode* initialMode customMode*;
     initialMode             :   INITIAL customMode;
@@ -38,6 +39,7 @@ INTEGER                     :   [1-9][0-9]*;
 INITIAL                     :   '->';
 OPERATOR                    :   'AND';
 ANALOGIC_OPERATOR           :   '<' | '>';
+DEBUG_TYPE                  :   'TEXT' | 'GRAPH';
 
 
 /*************
