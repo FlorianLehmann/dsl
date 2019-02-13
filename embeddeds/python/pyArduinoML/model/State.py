@@ -10,7 +10,7 @@ class State(NamedElement):
 
     """
 
-    def __init__(self, name: str, actions: tuple=(), transition: Transition=None):
+    def __init__(self, name: str, actions: tuple=(), transitions: tuple = ()):
         """
         Constructor.
 
@@ -20,16 +20,8 @@ class State(NamedElement):
         :return:
         """
         NamedElement.__init__(self, name)
-        self.transition: Transition = transition
+        self.transitions: tuple = transitions
         self.actions: tuple = actions
-
-    def settransition(self, transition: Transition):
-        """
-        Sets the transition of the state
-        :param transition: Transition
-        :return:
-        """
-        self.transition = transition
 
     def setup(self):
         """
@@ -41,11 +33,12 @@ class State(NamedElement):
         rtr += "void state_%s() {\n" % self.name
         # generate code for state actions
         for action in self.actions:
-            rtr += "\tdigitalWrite(%s, %s);\n" % (action.brick.name, action.value.__str__())
+            rtr += "\tdigitalWrite(%s, %s);\n" % (action.brick.name, str(action.value))
             rtr += "\tboolean guard =  millis() - time > debounce;\n"
         # generate code for the transition
-        transition = self.transition
-        rtr += transition.setup()
+
+        for transition in self.transitions:
+            rtr += transition.setup()
         # end of state
         rtr += "\n}\n"
         return rtr
