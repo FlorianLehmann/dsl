@@ -15,6 +15,6 @@ class Transition :
         for comparison in self.comparisons:
             res += comparison.setup() + " && "
         
-        res += "guard) {\n\t\ttime = millis(); state_%s();\n\t}" % self.nextstate.name
+        res += "guard) {\n\t\ttime = millis(); functionPtr = state_%s;\n\t}" % self.nextstate.name
 
         return res
