@@ -36,9 +36,9 @@ class State(NamedElement):
             rtr += "\tdigitalWrite(%s, %s);\n" % (action.brick.name, str(action.value))
             rtr += "\tboolean guard =  millis() - time > debounce;\n"
         # generate code for the transition
+
         for transition in self.transitions:
-            rtr += transition.setup() + " else "
-        rtr += "{\n\t\tstate_%s();\n\t}" % (self.name)
+            rtr += transition.setup()
         # end of state
         rtr += "\n}\n"
         return rtr

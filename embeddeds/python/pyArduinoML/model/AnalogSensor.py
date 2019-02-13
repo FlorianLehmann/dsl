@@ -1,12 +1,6 @@
-__author__ = 'pascalpoizat'
+from .Sensor import Sensor
 
-from pyArduinoML.model.Brick import Brick
-
-class Sensor(Brick):
-    """
-    A sensor.
-
-    """
+class AnalogSensor(Sensor):
 
     def __init__(self, name: str, pin: int):
         """
@@ -16,7 +10,7 @@ class Sensor(Brick):
         :param pin: Integer, pin where the sensor is connected
         :return:
         """
-        Brick.__init__(self, name, pin)
+        Sensor.__init__(self, name, pin)
 
     def setup(self):
         """
@@ -24,4 +18,4 @@ class Sensor(Brick):
 
         :return: String
         """
-        pass
+        return ""

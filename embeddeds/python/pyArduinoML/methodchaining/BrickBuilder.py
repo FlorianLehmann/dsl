@@ -1,7 +1,7 @@
 __author__ = 'pascalpoizat'
 
 from pyArduinoML.model.Actuator import Actuator
-from pyArduinoML.model.Sensor import Sensor
+from pyArduinoML.model.DigitalSensor import DigitalSensor
 
 ACTUATOR = 0
 SENSOR = 1
@@ -45,5 +45,5 @@ class BrickBuilder:
         if self.kind == ACTUATOR:
             return Actuator(self.name, self.pin)
         if self.kind == SENSOR:
-            return Sensor(self.name, self.pin)
+            return DigitalSensor(self.name, self.pin)
         return None
