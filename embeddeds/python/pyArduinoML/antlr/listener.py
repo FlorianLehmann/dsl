@@ -122,4 +122,4 @@ class Listener(ArduinomlListener):
         if ctx.debug() is not None:
             if self.monitor is None:
                 self.monitor = Monitor()
-            self.monitor.addBrick(brick)
+            self.monitor.addBrick((brick, ctx.debug().debug_type.text))
