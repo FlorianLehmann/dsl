@@ -7,3 +7,4 @@ embeddeds/haskell/dist
 .DS_Store
 .idea
 *.icloud"
+.vscode
