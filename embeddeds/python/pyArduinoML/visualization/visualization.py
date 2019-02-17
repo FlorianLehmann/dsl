@@ -9,7 +9,6 @@ import random
 from datetime import datetime
 
 import networkx as nx
-import pygraphviz
 
 
 NUMBER_OF_VALUES = 10

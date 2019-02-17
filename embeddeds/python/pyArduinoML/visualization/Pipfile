@@ -7,6 +7,13 @@ verify_ssl = true
 
 [packages]
 pyserial = "*"
+plotly = "*"
+dash = "*"
+dash-html-components = "*"
+dash-core-components = "*"
+dash-table = "*"
+dash-daq = "*"
+networkx = "*"
 
 [requires]
 python_version = "3.6"
