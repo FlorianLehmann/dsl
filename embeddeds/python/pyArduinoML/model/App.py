@@ -48,7 +48,7 @@ int state = LOW; int prev = HIGH;
 long time = 0; long debounce = 200;
 
 %s
-void loop() { (*functionPtr)(); """ % (self.modes[0].name
+void loop() { (*functionPtr)(); """ % (self.modes[0].name,
                                   "\n".join(map(lambda m: m.setup(), self.modes)))
 
 
