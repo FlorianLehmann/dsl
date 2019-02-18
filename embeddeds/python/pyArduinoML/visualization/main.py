@@ -1,5 +1,10 @@
 import serial
+import sys
 
+if sys.platform == 'linux':
+    port = '/dev/ttyACM0'
+else:
+    port = "/dev/tty.usbmodem143120"
 
 def initArduino(serialPort):
     try:
@@ -18,11 +23,13 @@ def processData(json):
 
 
 if __name__ == "__main__":
-    serial = initArduino("/dev/tty.usbmodem143120")
+    serial = initArduino(port)
+    serial.flush()
+    serial.readline()
     while True:
-        command = ""
-        char = ""
-        while (char != "\x03"):
-            char = serial.read()
-            command = command + char.decode('utf-8')
-        processData(command)
+        try:
+            command = serial.readline().decode('utf-8')
+        except UnicodeDecodeError as e:
+            print(e, file=sys.stderr)
+        else:
+            processData(command)
