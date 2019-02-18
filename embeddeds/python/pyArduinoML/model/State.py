@@ -23,6 +23,19 @@ class State(NamedElement):
         self.transitions: tuple = transitions
         self.actions: tuple = actions
 
+    def getContent(self, tabNb = 1, complementary = ""):
+        rtr = ""
+
+        for action in self.actions:
+            rtr += "\t"*tabNb + "digitalWrite(%s, %s);\n" % (action.brick.name, str(action.value))
+            rtr += "\t"*tabNb + "boolean guard =  millis() - time > debounce;\n"
+        # generate code for the transition
+
+        for transition in self.transitions:
+            rtr += transition.setup(tabNb, complementary)
+
+        return rtr
+
     def setup(self):
         """
         Arduino code for the state.
@@ -31,14 +44,9 @@ class State(NamedElement):
         """
         rtr = ""
         rtr += "void state_%s() {\n" % self.name
-        # generate code for state actions
-        for action in self.actions:
-            rtr += "\tdigitalWrite(%s, %s);\n" % (action.brick.name, str(action.value))
-            rtr += "\tboolean guard =  millis() - time > debounce;\n"
-        # generate code for the transition
-
-        for transition in self.transitions:
-            rtr += transition.setup()
+        
+        rtr += self.getContent()
+        
         # end of state
         rtr += "\n}\n"
         return rtr
