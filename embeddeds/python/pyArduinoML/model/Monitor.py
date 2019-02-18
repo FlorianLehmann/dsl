@@ -8,10 +8,13 @@ class Monitor():
 
     def __init__(self):
         self.bricks: list(tuple) = []
-        # here we could also add mode and state
+        self.modes = []
 
     def addBrick(self, brick: Brick):
         self.bricks.append(brick)
+    
+    def addMode(self, mode):
+        self.modes.append(mode)
 
     def setup(self) -> str:
         return "\tSerial.begin(9600);"
