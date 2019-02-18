@@ -46,15 +46,9 @@ void setup() { %s """ % ("\n".join(map(lambda b: b.declare(), self.bricks)),
 void (*functionPtr)() = mode_%s;
 int state = LOW; int prev = HIGH;
 long time = 0; long debounce = 200;
-""" % self.modes[0].name
-
-        for mode in self.modes:
-            rtr += mode.setup()
-
-        rtr += """
 
 %s
-void loop() { (*functionPtr)(); """ % (
+void loop() { (*functionPtr)(); """ % (self.modes[0].name
                                   "\n".join(map(lambda m: m.setup(), self.modes)))
 
 
