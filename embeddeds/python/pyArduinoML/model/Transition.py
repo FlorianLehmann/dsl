@@ -15,6 +15,6 @@ class Transition :
         for comparison in self.comparisons:
             res += comparison.setup() + " && "
         
-        res += "guard) {\n" + "\t"*(tabNb+1) + "time = millis(); functionPtr = %s%s%s;\n" % (complementary, self.nextelement, complementaryEnd) + "\t"*tabNb +"}"
+        res += "guard) {\n" + "\t"*(tabNb+1) + "time = millis(); functionPtr = %s%s%s;\n" % (complementary, self.nextelement.name, complementaryEnd) + "\t"*tabNb +"}"
 
         return res

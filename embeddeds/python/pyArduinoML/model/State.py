@@ -32,7 +32,7 @@ class State(NamedElement):
         # generate code for the transition
 
         for transition in self.transitions:
-            rtr += transition.setup(tabNb, complementary)
+            rtr += transition.setup(tabNb, complementary) + "\n"
 
         return rtr
 
