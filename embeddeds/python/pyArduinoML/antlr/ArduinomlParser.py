@@ -6,67 +6,66 @@ from io import StringIO
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\30")
-        buf.write("\u00af\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u00ad\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
         buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\3\2\3\2\3\2\3\2\3\2\3\3")
         buf.write("\3\3\3\3\3\4\3\4\6\4\67\n\4\r\4\16\48\3\5\3\5\3\5\5\5")
         buf.write(">\n\5\3\6\3\6\3\6\5\6C\n\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b")
         buf.write("\3\t\7\tM\n\t\f\t\16\tP\13\t\3\t\3\t\7\tT\n\t\f\t\16\t")
-        buf.write("W\13\t\3\n\3\n\3\n\3\13\3\13\3\13\6\13_\n\13\r\13\16\13")
-        buf.write("`\3\13\6\13d\n\13\r\13\16\13e\3\13\3\13\3\f\3\f\3\f\3")
-        buf.write("\f\3\r\7\ro\n\r\f\r\16\rr\13\r\3\r\3\r\7\rv\n\r\f\r\16")
-        buf.write("\ry\13\r\3\16\3\16\3\16\3\17\3\17\3\17\6\17\u0081\n\17")
-        buf.write("\r\17\16\17\u0082\3\17\6\17\u0086\n\17\r\17\16\17\u0087")
-        buf.write("\3\17\3\17\3\20\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\22")
-        buf.write("\3\22\3\22\3\22\3\22\3\22\7\22\u009a\n\22\f\22\16\22\u009d")
-        buf.write("\13\22\3\23\3\23\3\23\5\23\u00a2\n\23\3\24\3\24\3\24\3")
-        buf.write("\24\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\26\2\3\"\27\2")
-        buf.write("\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*\2\2\u00a8")
-        buf.write("\2,\3\2\2\2\4\61\3\2\2\2\6\66\3\2\2\2\b:\3\2\2\2\n?\3")
-        buf.write("\2\2\2\fD\3\2\2\2\16H\3\2\2\2\20N\3\2\2\2\22X\3\2\2\2")
-        buf.write("\24[\3\2\2\2\26i\3\2\2\2\30p\3\2\2\2\32z\3\2\2\2\34}\3")
-        buf.write("\2\2\2\36\u008b\3\2\2\2 \u008f\3\2\2\2\"\u0093\3\2\2\2")
-        buf.write("$\u00a1\3\2\2\2&\u00a3\3\2\2\2(\u00a7\3\2\2\2*\u00ab\3")
-        buf.write("\2\2\2,-\5\4\3\2-.\5\6\4\2./\5\30\r\2/\60\7\2\2\3\60\3")
-        buf.write("\3\2\2\2\61\62\7\3\2\2\62\63\7\17\2\2\63\5\3\2\2\2\64")
-        buf.write("\67\5\b\5\2\65\67\5\n\6\2\66\64\3\2\2\2\66\65\3\2\2\2")
-        buf.write("\678\3\2\2\28\66\3\2\2\289\3\2\2\29\7\3\2\2\2:;\7\4\2")
-        buf.write("\2;=\5\f\7\2<>\5\16\b\2=<\3\2\2\2=>\3\2\2\2>\t\3\2\2\2")
-        buf.write("?@\7\5\2\2@B\5\f\7\2AC\5\16\b\2BA\3\2\2\2BC\3\2\2\2C\13")
-        buf.write("\3\2\2\2DE\7\17\2\2EF\7\6\2\2FG\7\16\2\2G\r\3\2\2\2HI")
-        buf.write("\7\7\2\2IJ\7\25\2\2J\17\3\2\2\2KM\5\24\13\2LK\3\2\2\2")
-        buf.write("MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2OQ\3\2\2\2PN\3\2\2\2QU\5")
-        buf.write("\22\n\2RT\5\24\13\2SR\3\2\2\2TW\3\2\2\2US\3\2\2\2UV\3")
-        buf.write("\2\2\2V\21\3\2\2\2WU\3\2\2\2XY\7\22\2\2YZ\5\24\13\2Z\23")
-        buf.write("\3\2\2\2[\\\7\17\2\2\\^\7\b\2\2]_\5\30\r\2^]\3\2\2\2_")
-        buf.write("`\3\2\2\2`^\3\2\2\2`a\3\2\2\2ac\3\2\2\2bd\5\26\f\2cb\3")
-        buf.write("\2\2\2de\3\2\2\2ec\3\2\2\2ef\3\2\2\2fg\3\2\2\2gh\7\t\2")
-        buf.write("\2h\25\3\2\2\2ij\5\"\22\2jk\7\n\2\2kl\7\17\2\2l\27\3\2")
-        buf.write("\2\2mo\5\34\17\2nm\3\2\2\2or\3\2\2\2pn\3\2\2\2pq\3\2\2")
-        buf.write("\2qs\3\2\2\2rp\3\2\2\2sw\5\32\16\2tv\5\34\17\2ut\3\2\2")
-        buf.write("\2vy\3\2\2\2wu\3\2\2\2wx\3\2\2\2x\31\3\2\2\2yw\3\2\2\2")
-        buf.write("z{\7\22\2\2{|\5\34\17\2|\33\3\2\2\2}~\7\17\2\2~\u0080")
-        buf.write("\7\b\2\2\177\u0081\5\36\20\2\u0080\177\3\2\2\2\u0081\u0082")
-        buf.write("\3\2\2\2\u0082\u0080\3\2\2\2\u0082\u0083\3\2\2\2\u0083")
-        buf.write("\u0085\3\2\2\2\u0084\u0086\5 \21\2\u0085\u0084\3\2\2\2")
-        buf.write("\u0086\u0087\3\2\2\2\u0087\u0085\3\2\2\2\u0087\u0088\3")
-        buf.write("\2\2\2\u0088\u0089\3\2\2\2\u0089\u008a\7\t\2\2\u008a\35")
-        buf.write("\3\2\2\2\u008b\u008c\7\17\2\2\u008c\u008d\7\13\2\2\u008d")
-        buf.write("\u008e\7\20\2\2\u008e\37\3\2\2\2\u008f\u0090\5\"\22\2")
-        buf.write("\u0090\u0091\7\n\2\2\u0091\u0092\7\17\2\2\u0092!\3\2\2")
-        buf.write("\2\u0093\u0094\b\22\1\2\u0094\u0095\5$\23\2\u0095\u009b")
-        buf.write("\3\2\2\2\u0096\u0097\f\4\2\2\u0097\u0098\7\23\2\2\u0098")
-        buf.write("\u009a\5\"\22\5\u0099\u0096\3\2\2\2\u009a\u009d\3\2\2")
-        buf.write("\2\u009b\u0099\3\2\2\2\u009b\u009c\3\2\2\2\u009c#\3\2")
-        buf.write("\2\2\u009d\u009b\3\2\2\2\u009e\u00a2\5&\24\2\u009f\u00a2")
-        buf.write("\5(\25\2\u00a0\u00a2\5*\26\2\u00a1\u009e\3\2\2\2\u00a1")
-        buf.write("\u009f\3\2\2\2\u00a1\u00a0\3\2\2\2\u00a2%\3\2\2\2\u00a3")
-        buf.write("\u00a4\7\17\2\2\u00a4\u00a5\7\24\2\2\u00a5\u00a6\7\21")
-        buf.write("\2\2\u00a6\'\3\2\2\2\u00a7\u00a8\7\17\2\2\u00a8\u00a9")
-        buf.write("\7\f\2\2\u00a9\u00aa\7\20\2\2\u00aa)\3\2\2\2\u00ab\u00ac")
-        buf.write("\7\r\2\2\u00ac\u00ad\7\21\2\2\u00ad+\3\2\2\2\20\668=B")
-        buf.write("NU`epw\u0082\u0087\u009b\u00a1")
+        buf.write("W\13\t\3\n\3\n\3\n\3\13\3\13\3\13\3\13\7\13`\n\13\f\13")
+        buf.write("\16\13c\13\13\3\13\3\13\3\f\3\f\3\f\3\f\3\r\7\rl\n\r\f")
+        buf.write("\r\16\ro\13\r\3\r\3\r\7\rs\n\r\f\r\16\rv\13\r\3\16\3\16")
+        buf.write("\3\16\3\17\3\17\3\17\6\17~\n\17\r\17\16\17\177\3\17\7")
+        buf.write("\17\u0083\n\17\f\17\16\17\u0086\13\17\3\17\3\17\3\20\3")
+        buf.write("\20\3\20\3\20\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22")
+        buf.write("\3\22\3\22\7\22\u0098\n\22\f\22\16\22\u009b\13\22\3\23")
+        buf.write("\3\23\3\23\5\23\u00a0\n\23\3\24\3\24\3\24\3\24\3\25\3")
+        buf.write("\25\3\25\3\25\3\26\3\26\3\26\3\26\2\3\"\27\2\4\6\b\n\f")
+        buf.write("\16\20\22\24\26\30\32\34\36 \"$&(*\2\2\u00a5\2,\3\2\2")
+        buf.write("\2\4\61\3\2\2\2\6\66\3\2\2\2\b:\3\2\2\2\n?\3\2\2\2\fD")
+        buf.write("\3\2\2\2\16H\3\2\2\2\20N\3\2\2\2\22X\3\2\2\2\24[\3\2\2")
+        buf.write("\2\26f\3\2\2\2\30m\3\2\2\2\32w\3\2\2\2\34z\3\2\2\2\36")
+        buf.write("\u0089\3\2\2\2 \u008d\3\2\2\2\"\u0091\3\2\2\2$\u009f\3")
+        buf.write("\2\2\2&\u00a1\3\2\2\2(\u00a5\3\2\2\2*\u00a9\3\2\2\2,-")
+        buf.write("\5\4\3\2-.\5\6\4\2./\5\20\t\2/\60\7\2\2\3\60\3\3\2\2\2")
+        buf.write("\61\62\7\3\2\2\62\63\7\17\2\2\63\5\3\2\2\2\64\67\5\b\5")
+        buf.write("\2\65\67\5\n\6\2\66\64\3\2\2\2\66\65\3\2\2\2\678\3\2\2")
+        buf.write("\28\66\3\2\2\289\3\2\2\29\7\3\2\2\2:;\7\4\2\2;=\5\f\7")
+        buf.write("\2<>\5\16\b\2=<\3\2\2\2=>\3\2\2\2>\t\3\2\2\2?@\7\5\2\2")
+        buf.write("@B\5\f\7\2AC\5\16\b\2BA\3\2\2\2BC\3\2\2\2C\13\3\2\2\2")
+        buf.write("DE\7\17\2\2EF\7\6\2\2FG\7\16\2\2G\r\3\2\2\2HI\7\7\2\2")
+        buf.write("IJ\7\25\2\2J\17\3\2\2\2KM\5\24\13\2LK\3\2\2\2MP\3\2\2")
+        buf.write("\2NL\3\2\2\2NO\3\2\2\2OQ\3\2\2\2PN\3\2\2\2QU\5\22\n\2")
+        buf.write("RT\5\24\13\2SR\3\2\2\2TW\3\2\2\2US\3\2\2\2UV\3\2\2\2V")
+        buf.write("\21\3\2\2\2WU\3\2\2\2XY\7\22\2\2YZ\5\24\13\2Z\23\3\2\2")
+        buf.write("\2[\\\7\17\2\2\\]\7\b\2\2]a\5\30\r\2^`\5\26\f\2_^\3\2")
+        buf.write("\2\2`c\3\2\2\2a_\3\2\2\2ab\3\2\2\2bd\3\2\2\2ca\3\2\2\2")
+        buf.write("de\7\t\2\2e\25\3\2\2\2fg\5\"\22\2gh\7\n\2\2hi\7\17\2\2")
+        buf.write("i\27\3\2\2\2jl\5\34\17\2kj\3\2\2\2lo\3\2\2\2mk\3\2\2\2")
+        buf.write("mn\3\2\2\2np\3\2\2\2om\3\2\2\2pt\5\32\16\2qs\5\34\17\2")
+        buf.write("rq\3\2\2\2sv\3\2\2\2tr\3\2\2\2tu\3\2\2\2u\31\3\2\2\2v")
+        buf.write("t\3\2\2\2wx\7\22\2\2xy\5\34\17\2y\33\3\2\2\2z{\7\17\2")
+        buf.write("\2{}\7\b\2\2|~\5\36\20\2}|\3\2\2\2~\177\3\2\2\2\177}\3")
+        buf.write("\2\2\2\177\u0080\3\2\2\2\u0080\u0084\3\2\2\2\u0081\u0083")
+        buf.write("\5 \21\2\u0082\u0081\3\2\2\2\u0083\u0086\3\2\2\2\u0084")
+        buf.write("\u0082\3\2\2\2\u0084\u0085\3\2\2\2\u0085\u0087\3\2\2\2")
+        buf.write("\u0086\u0084\3\2\2\2\u0087\u0088\7\t\2\2\u0088\35\3\2")
+        buf.write("\2\2\u0089\u008a\7\17\2\2\u008a\u008b\7\13\2\2\u008b\u008c")
+        buf.write("\7\20\2\2\u008c\37\3\2\2\2\u008d\u008e\5\"\22\2\u008e")
+        buf.write("\u008f\7\n\2\2\u008f\u0090\7\17\2\2\u0090!\3\2\2\2\u0091")
+        buf.write("\u0092\b\22\1\2\u0092\u0093\5$\23\2\u0093\u0099\3\2\2")
+        buf.write("\2\u0094\u0095\f\4\2\2\u0095\u0096\7\23\2\2\u0096\u0098")
+        buf.write("\5\"\22\5\u0097\u0094\3\2\2\2\u0098\u009b\3\2\2\2\u0099")
+        buf.write("\u0097\3\2\2\2\u0099\u009a\3\2\2\2\u009a#\3\2\2\2\u009b")
+        buf.write("\u0099\3\2\2\2\u009c\u00a0\5&\24\2\u009d\u00a0\5(\25\2")
+        buf.write("\u009e\u00a0\5*\26\2\u009f\u009c\3\2\2\2\u009f\u009d\3")
+        buf.write("\2\2\2\u009f\u009e\3\2\2\2\u00a0%\3\2\2\2\u00a1\u00a2")
+        buf.write("\7\17\2\2\u00a2\u00a3\7\24\2\2\u00a3\u00a4\7\21\2\2\u00a4")
+        buf.write("\'\3\2\2\2\u00a5\u00a6\7\17\2\2\u00a6\u00a7\7\f\2\2\u00a7")
+        buf.write("\u00a8\7\20\2\2\u00a8)\3\2\2\2\u00a9\u00aa\7\r\2\2\u00aa")
+        buf.write("\u00ab\7\21\2\2\u00ab+\3\2\2\2\17\668=BNUamt\177\u0084")
+        buf.write("\u0099\u009f")
         return buf.getvalue()
 
 
@@ -166,8 +165,8 @@ class ArduinomlParser ( Parser ):
             return self.getTypedRuleContext(ArduinomlParser.BricksContext,0)
 
 
-        def states(self):
-            return self.getTypedRuleContext(ArduinomlParser.StatesContext,0)
+        def modes(self):
+            return self.getTypedRuleContext(ArduinomlParser.ModesContext,0)
 
 
         def EOF(self):
@@ -198,7 +197,7 @@ class ArduinomlParser ( Parser ):
             self.state = 43
             self.bricks()
             self.state = 44
-            self.states()
+            self.modes()
             self.state = 45
             self.match(ArduinomlParser.EOF)
         except RecognitionException as re:
@@ -644,15 +643,12 @@ class ArduinomlParser ( Parser ):
             self.parser = parser
             self.identifier = None # Token
 
+        def states(self):
+            return self.getTypedRuleContext(ArduinomlParser.StatesContext,0)
+
+
         def IDENTIFIER(self):
             return self.getToken(ArduinomlParser.IDENTIFIER, 0)
-
-        def states(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(ArduinomlParser.StatesContext)
-            else:
-                return self.getTypedRuleContext(ArduinomlParser.StatesContext,i)
-
 
         def modeTransition(self, i:int=None):
             if i is None:
@@ -686,33 +682,19 @@ class ArduinomlParser ( Parser ):
             localctx.identifier = self.match(ArduinomlParser.IDENTIFIER)
             self.state = 90
             self.match(ArduinomlParser.T__5)
-            self.state = 92 
-            self._errHandler.sync(self)
-            _alt = 1
-            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                if _alt == 1:
-                    self.state = 91
-                    self.states()
-
-                else:
-                    raise NoViableAltException(self)
-                self.state = 94 
-                self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,6,self._ctx)
-
-            self.state = 97 
+            self.state = 91
+            self.states()
+            self.state = 95
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while True:
-                self.state = 96
+            while _la==ArduinomlParser.T__10 or _la==ArduinomlParser.IDENTIFIER:
+                self.state = 92
                 self.modeTransition()
-                self.state = 99 
+                self.state = 97
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la==ArduinomlParser.T__10 or _la==ArduinomlParser.IDENTIFIER):
-                    break
 
-            self.state = 101
+            self.state = 98
             self.match(ArduinomlParser.T__6)
         except RecognitionException as re:
             localctx.exception = re
@@ -756,11 +738,11 @@ class ArduinomlParser ( Parser ):
         self.enterRule(localctx, 20, self.RULE_modeTransition)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 103
+            self.state = 100
             self.expression(0)
-            self.state = 104
+            self.state = 101
             self.match(ArduinomlParser.T__7)
-            self.state = 105
+            self.state = 102
             localctx.next_mode = self.match(ArduinomlParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -808,28 +790,28 @@ class ArduinomlParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 110
+            self.state = 107
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==ArduinomlParser.IDENTIFIER:
-                self.state = 107
+                self.state = 104
                 self.customState()
-                self.state = 112
+                self.state = 109
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 113
+            self.state = 110
             self.initialState()
-            self.state = 117
+            self.state = 114
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,9,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 114
+                    self.state = 111
                     self.customState() 
-                self.state = 119
+                self.state = 116
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,9,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -872,9 +854,9 @@ class ArduinomlParser ( Parser ):
         self.enterRule(localctx, 24, self.RULE_initialState)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 120
+            self.state = 117
             self.match(ArduinomlParser.INITIAL)
-            self.state = 121
+            self.state = 118
             self.customState()
         except RecognitionException as re:
             localctx.exception = re
@@ -929,37 +911,35 @@ class ArduinomlParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 123
+            self.state = 120
             localctx.identifier = self.match(ArduinomlParser.IDENTIFIER)
-            self.state = 124
+            self.state = 121
             self.match(ArduinomlParser.T__5)
-            self.state = 126 
+            self.state = 123 
             self._errHandler.sync(self)
             _alt = 1
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt == 1:
-                    self.state = 125
+                    self.state = 122
                     self.action()
 
                 else:
                     raise NoViableAltException(self)
-                self.state = 128 
+                self.state = 125 
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,9,self._ctx)
 
-            self.state = 131 
+            self.state = 130
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while True:
-                self.state = 130
+            while _la==ArduinomlParser.T__10 or _la==ArduinomlParser.IDENTIFIER:
+                self.state = 127
                 self.stateTransition()
-                self.state = 133 
+                self.state = 132
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la==ArduinomlParser.T__10 or _la==ArduinomlParser.IDENTIFIER):
-                    break
 
-            self.state = 135
+            self.state = 133
             self.match(ArduinomlParser.T__6)
         except RecognitionException as re:
             localctx.exception = re
@@ -1003,11 +983,11 @@ class ArduinomlParser ( Parser ):
         self.enterRule(localctx, 28, self.RULE_action)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 137
+            self.state = 135
             localctx.receiver = self.match(ArduinomlParser.IDENTIFIER)
-            self.state = 138
+            self.state = 136
             self.match(ArduinomlParser.T__8)
-            self.state = 139
+            self.state = 137
             localctx.value = self.match(ArduinomlParser.SIGNAL)
         except RecognitionException as re:
             localctx.exception = re
@@ -1051,11 +1031,11 @@ class ArduinomlParser ( Parser ):
         self.enterRule(localctx, 30, self.RULE_stateTransition)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 141
+            self.state = 139
             self.expression(0)
-            self.state = 142
+            self.state = 140
             self.match(ArduinomlParser.T__7)
-            self.state = 143
+            self.state = 141
             localctx.next_state = self.match(ArduinomlParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1108,12 +1088,12 @@ class ArduinomlParser ( Parser ):
         self.enterRecursionRule(localctx, 32, self.RULE_expression, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 146
+            self.state = 144
             self.comparison()
             self._ctx.stop = self._input.LT(-1)
-            self.state = 153
+            self.state = 151
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,12,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,11,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:
@@ -1121,17 +1101,17 @@ class ArduinomlParser ( Parser ):
                     _prevctx = localctx
                     localctx = ArduinomlParser.ExpressionContext(self, _parentctx, _parentState)
                     self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                    self.state = 148
+                    self.state = 146
                     if not self.precpred(self._ctx, 2):
                         from antlr4.error.Errors import FailedPredicateException
                         raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                    self.state = 149
+                    self.state = 147
                     localctx.operator = self.match(ArduinomlParser.OPERATOR)
-                    self.state = 150
+                    self.state = 148
                     self.expression(3) 
-                self.state = 155
+                self.state = 153
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,12,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,11,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1178,24 +1158,24 @@ class ArduinomlParser ( Parser ):
         localctx = ArduinomlParser.ComparisonContext(self, self._ctx, self.state)
         self.enterRule(localctx, 34, self.RULE_comparison)
         try:
-            self.state = 159
+            self.state = 157
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,13,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,12,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 156
+                self.state = 154
                 self.analogicComparison()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 157
+                self.state = 155
                 self.discreteComparison()
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 158
+                self.state = 156
                 self.temporalComparison()
                 pass
 
@@ -1246,11 +1226,11 @@ class ArduinomlParser ( Parser ):
         self.enterRule(localctx, 36, self.RULE_analogicComparison)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 161
+            self.state = 159
             localctx.trigger = self.match(ArduinomlParser.IDENTIFIER)
-            self.state = 162
+            self.state = 160
             localctx.operator = self.match(ArduinomlParser.ANALOGIC_OPERATOR)
-            self.state = 163
+            self.state = 161
             localctx.threshold = self.match(ArduinomlParser.INTEGER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1294,11 +1274,11 @@ class ArduinomlParser ( Parser ):
         self.enterRule(localctx, 38, self.RULE_discreteComparison)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 165
+            self.state = 163
             localctx.trigger = self.match(ArduinomlParser.IDENTIFIER)
-            self.state = 166
+            self.state = 164
             self.match(ArduinomlParser.T__9)
-            self.state = 167
+            self.state = 165
             localctx.value = self.match(ArduinomlParser.SIGNAL)
         except RecognitionException as re:
             localctx.exception = re
@@ -1338,9 +1318,9 @@ class ArduinomlParser ( Parser ):
         self.enterRule(localctx, 40, self.RULE_temporalComparison)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 169
+            self.state = 167
             self.match(ArduinomlParser.T__10)
-            self.state = 170
+            self.state = 168
             localctx.delay = self.match(ArduinomlParser.INTEGER)
         except RecognitionException as re:
             localctx.exception = re

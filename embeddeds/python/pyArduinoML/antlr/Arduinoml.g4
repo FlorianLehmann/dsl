@@ -1,6 +1,6 @@
 grammar Arduinoml;
 
-root                        :   declaration bricks states EOF;
+root                        :   declaration bricks modes EOF;
 
 declaration                 :   'application' name=IDENTIFIER;
 
@@ -12,12 +12,12 @@ bricks                      :   (sensor|actuator)+;
 
 modes                       :   customMode* initialMode customMode*;
     initialMode             :   INITIAL customMode;
-    customMode              :   identifier=IDENTIFIER '{' states+ modeTransition+ '}';
+    customMode              :   identifier=IDENTIFIER '{' states modeTransition* '}';
     modeTransition          :   expression '=>' next_mode=IDENTIFIER;
 
 states                      :   customState* initialState customState*;
     initialState            :   INITIAL customState;
-    customState             :   identifier=IDENTIFIER '{'  action+ stateTransition+ '}';
+    customState             :   identifier=IDENTIFIER '{'  action+ stateTransition* '}';
     action                  :   receiver=IDENTIFIER '<=' value=SIGNAL;
     stateTransition         :   expression '=>' next_state=IDENTIFIER;
     expression              :   expression operator=OPERATOR expression | comparison;
