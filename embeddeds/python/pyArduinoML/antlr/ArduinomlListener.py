@@ -1,4 +1,4 @@
-# Generated from pyArduinoML/antlr/Arduinoml.g4 by ANTLR 4.6
+# Generated from pyArduinoML/antlr/Arduinoml.g4 by ANTLR 4.7.2
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .ArduinomlParser import ArduinomlParser
@@ -23,6 +23,15 @@ class ArduinomlListener(ParseTreeListener):
 
     # Exit a parse tree produced by ArduinomlParser#declaration.
     def exitDeclaration(self, ctx:ArduinomlParser.DeclarationContext):
+        pass
+
+
+    # Enter a parse tree produced by ArduinomlParser#showStateMachine.
+    def enterShowStateMachine(self, ctx:ArduinomlParser.ShowStateMachineContext):
+        pass
+
+    # Exit a parse tree produced by ArduinomlParser#showStateMachine.
+    def exitShowStateMachine(self, ctx:ArduinomlParser.ShowStateMachineContext):
         pass
 
 

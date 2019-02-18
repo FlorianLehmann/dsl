@@ -76,6 +76,9 @@ class Listener(ArduinomlListener):
             self.monitor.addMode(mode)
         self.app = App(self.name, tuple(self.bricks), self.modes, self.monitor)
 
+    def enterShowStateMachine(self, ctx:ArduinomlParser.ShowStateMachineContext):
+        self.monitor.showStateMachine = True
+
     def enterDeclaration(self, ctx:ArduinomlParser.DeclarationContext):
         self.name = ctx.name.text
 

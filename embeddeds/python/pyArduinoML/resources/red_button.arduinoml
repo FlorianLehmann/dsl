@@ -1,5 +1,8 @@
 application redButton
 
+SHOW STATE MACHINE
+
+
 sensor button: 9 DEBUG TEXT
 actuator led: 12 DEBUG GRAPH
 

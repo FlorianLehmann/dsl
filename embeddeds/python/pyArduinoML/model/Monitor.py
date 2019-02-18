@@ -9,6 +9,7 @@ class Monitor():
     def __init__(self):
         self.bricks: list(tuple) = []
         self.modes = []
+        self.showStateMachine: bool = False
 
     def addBrick(self, brick: Brick):
         self.bricks.append(brick)
@@ -22,7 +23,8 @@ class Monitor():
     def loop(self) -> str:
         code = "Serial.write(\""
         data = {}
-        data['StateMachine'] = '<dotfile>'
+        if self.showStateMachine:
+            data['StateMachine'] = '<dotfile>'
         data['Bricks'] = []
         
         for i, (brick, mode) in enumerate(self.bricks):

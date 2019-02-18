@@ -1,8 +1,8 @@
-<syntax> ::= <declaration> <bricks> <modes>
+<syntax> ::= <declaration> <showStateMachine> <bricks> <modes>
 
 <declaration> ::= application <identifier>
 
-<showStateMachine> ::= SHOW STATE-MACHINE
+<showStateMachine> ::= SHOW STATE MACHINE
 
 <modes> ::= <initialMode> { <mode> }
 <initialMode> ::= -> <mode>
