@@ -2,6 +2,8 @@
 
 <declaration> ::= application <identifier>
 
+<showStateMachine> ::= SHOW STATE-MACHINE
+
 <modes> ::= <initialMode> { <mode> }
 <initialMode> ::= -> <mode>
 <mode> ::= <identifier> "{" <states> { <transition> } "}"
