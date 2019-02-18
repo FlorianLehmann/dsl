@@ -9,12 +9,12 @@ class Transition :
         self.comparisons = comparisons
         self.nextelement = nextelement
 
-    def setup(self, tabNb = 1, complementary = ""):
+    def setup(self, tabNb = 1, complementary = "state_", complementaryEnd = ""):
         res = "\t"*tabNb + "if ("
         
         for comparison in self.comparisons:
             res += comparison.setup() + " && "
         
-        res += "guard) {\n" + "\t"*(tabNb+1) + "time = millis(); functionPtr = %sstate_%s;\n" % (complementary, self.nextelement) + "\t"*tabNb +"}"
+        res += "guard) {\n" + "\t"*(tabNb+1) + "time = millis(); functionPtr = %s%s%s;\n" % (complementary, self.nextelement, complementaryEnd) + "\t"*tabNb +"}"
 
         return res

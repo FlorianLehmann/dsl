@@ -9,7 +9,7 @@ class App(NamedElement):
 
     """
 
-    def __init__(self, name: str, bricks: tuple=(), states: tuple=(), monitor: Monitor=None):
+    def __init__(self, name: str, bricks: tuple=(), modes: tuple=(), monitor: Monitor=None):
         """
         Constructor.
 
@@ -20,7 +20,7 @@ class App(NamedElement):
         """
         NamedElement.__init__(self, name)
         self.bricks: tuple = bricks
-        self.states: tuple = states
+        self.modes: tuple = modes
         self.monitor: Monitor = monitor
 
     def __repr__(self):
@@ -43,14 +43,19 @@ void setup() { %s """ % ("\n".join(map(lambda b: b.declare(), self.bricks)),
         
         }
 
-void (*functionPtr)() = state_%s;
+void (*functionPtr)() = mode_%s;
 int state = LOW; int prev = HIGH;
 long time = 0; long debounce = 200;
+""" % self.modes[0].name
+
+        for mode in modes:
+            rtr += mode.setup()
+
+        rtr += """
 
 %s
 void loop() { (*functionPtr)(); """ % (
-                                  self.states[0].name,
-                                  "\n".join(map(lambda s: s.setup(), self.states)))
+                                  "\n".join(map(lambda m: m.setup(), self.modes)))
 
 
         if self.monitor is not None:

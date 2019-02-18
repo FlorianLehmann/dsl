@@ -16,15 +16,17 @@ class Mode(NamedElement):
         """
         rtr = ""
 
+        rtr += "void mode_%s() { functionPtr = mode_%s_state_%s;}\n"%(self.name, self.name, self.states[0].name)
+
         for state in self.states:
             rtr += "void mode_%s_state_%s() {\n" % (self.name, state.name)
             
             for transition in self.transitions:
-                rtr += transition.setup() + " else "
+                rtr += transition.setup(1, "mode_") + " else "
 
             rtr += "{\n"
 
-            rtr += state.getContent(2, "mode_%s_" % self.name)
+            rtr += state.getContent(2, "mode_%s_state_" % self.name)
 
             rtr += "\n\t}"
 
