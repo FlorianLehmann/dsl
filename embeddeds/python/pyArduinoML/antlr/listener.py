@@ -26,7 +26,7 @@ class _Mode:
     def bind(self, modes):
         transitions = tuple(transition.bind(modes) for transition in self.transitions)
         states = tuple(state.bind(self.states) for state in self.states)
-        return Mode(self.name, states, transitions)
+        return Mode(self.name, transitions, states)
     
     def __repr__(self):
         return f'Mode({self.name}, {self.states}, {self.transitions})'
@@ -66,12 +66,14 @@ class Listener(ArduinomlListener):
         super().__init__()
         self.app = None
         self.name = None
-        self.monitor = None
+        self.monitor = Monitor()
         self.bricks = []
         self.modes = []
 
     def exitRoot(self, ctx:ArduinomlParser.RootContext):
         self.modes = tuple(mode.bind(self.modes) for mode in self.modes)
+        for mode in self.modes:
+            self.monitor.addMode(mode)
         self.app = App(self.name, tuple(self.bricks), self.modes, self.monitor)
 
     def enterDeclaration(self, ctx:ArduinomlParser.DeclarationContext):
@@ -139,6 +141,4 @@ class Listener(ArduinomlListener):
 
     def checkDebugOption(self, brick: Brick, ctx):
         if ctx.debug() is not None:
-            if self.monitor is None:
-                self.monitor = Monitor()
             self.monitor.addBrick((brick, ctx.debug().debug_type.text))

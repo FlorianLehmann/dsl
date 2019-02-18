@@ -48,7 +48,7 @@ int state = LOW; int prev = HIGH;
 long time = 0; long debounce = 200;
 """ % self.modes[0].name
 
-        for mode in modes:
+        for mode in self.modes:
             rtr += mode.setup()
 
         rtr += """
