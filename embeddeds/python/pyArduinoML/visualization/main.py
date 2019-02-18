@@ -14,15 +14,15 @@ def initArduino(serialPort):
 
 
 def processData(json):
-    print("hello")
+    print(json)
 
 
 if __name__ == "__main__":
-    serial = initArduino("dev/ttyACM0")
+    serial = initArduino("/dev/tty.usbmodem143120")
     while True:
         command = ""
         char = ""
         while (char != "\x03"):
             char = serial.read()
-            command = command + char
+            command = command + char.decode('utf-8')
         processData(command)
