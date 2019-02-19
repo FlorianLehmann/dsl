@@ -1,4 +1,4 @@
-This project require pip and pipenv to manage its python dependencies and environment. To install pipenv, run (with pip installed) :
+This project uses Python 3. This project require pip and pipenv to manage its python dependencies and environment. To install pipenv, run (with pip installed) :
 
 ```shell
 pip install pipenv
