@@ -1,5 +1,5 @@
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import threading
 
@@ -41,6 +41,8 @@ class Visualizer:
         self.lock = threading.Lock()
         self.traces = {}
         self.data = None
+        self.previous_date = None
+        self.previous_time = 0
 
     def _read_serial(self):
         try:
@@ -135,6 +137,8 @@ class Visualizer:
         name = data['name']
         bricks = data['Bricks']
         timestamp = datetime.now()
+        self.previous_date = timestamp
+        self.previous_time = int(data['timestamp'])
 
         external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
         app = dash.Dash(name, external_stylesheets=external_stylesheets)
@@ -163,7 +167,11 @@ class Visualizer:
         @app.callback(Output('bricks', 'figure'), [Input('interval-component', 'n_intervals')], [State('bricks', 'figure')])
         def update_plot(n, fig):
             data = self._read_serial()
-            timestamp = datetime.now()
+            new_time = int(data['timestamp'])
+            if new_time < self.previous_time:
+                self.previous_time = new_time
+                self.previous_date = datetime.now()
+            timestamp = self.previous_date + timedelta(milliseconds=new_time - self.previous_time)
             bricks = data['Bricks']
             bricks = {brick['name']: brick for brick in bricks}
             for trace in fig['data']:
