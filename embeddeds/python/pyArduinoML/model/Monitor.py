@@ -57,7 +57,8 @@ class Monitor():
                 str_brick = { "type": "DigitalSensor", brick.name: "%", "mode": mode }
                 stack.append("itoa(digitalRead(" + str(brick.pin) +"), str,10)")
             elif isinstance(brick, AnalogSensor):
-                pass
+                str_brick = { "type": "AnalogSensor", brick.name: "%", "mode": mode }
+                stack.append("itoa(analogRead(" + str(brick.pin) +"), str,10)")
             elif isinstance(brick, Actuator):
                 str_brick = { "type": "Actuator", brick.name: "%", "mode": mode }
                 stack.append("itoa(digitalReadOutputPin(" + str(brick.pin) + "), str,10)")
