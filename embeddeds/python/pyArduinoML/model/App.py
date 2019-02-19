@@ -50,6 +50,7 @@ void setup() { %s """ % ("\n".join(map(lambda b: b.declare(), self.bricks)),
 
 void (*functionPtr)() = mode_%s;
 int state = LOW; int prev = HIGH;
+char str[4];
 long time = 0; long debounce = 200;
 
 %s

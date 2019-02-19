@@ -55,16 +55,16 @@ class Monitor():
         for i, (brick, mode) in enumerate(self.bricks):
             if isinstance(brick, DigitalSensor):
                 str_brick = { "type": "DigitalSensor", brick.name: "%", "mode": mode }
-                stack.append("digitalRead(" + str(brick.pin) +")")
+                stack.append("itoa(digitalRead(" + str(brick.pin) +"), str,10)")
             elif isinstance(brick, AnalogSensor):
                 pass
             elif isinstance(brick, Actuator):
                 str_brick = { "type": "Actuator", brick.name: "%", "mode": mode }
-                stack.append("digitalReadOutputPin(" + str(brick.pin) + ")")
+                stack.append("itoa(digitalReadOutputPin(" + str(brick.pin) + "), str,10)")
             data['Bricks'].append(str_brick)
 
         code += json.dumps(data).replace('\"', '\\"')
-        code += "\");"
+        code += "\\n\");"
 
         for i in  stack:
             code = code.replace("%", '"); Serial.write(' + str(i) + '); Serial.write("', 1)
