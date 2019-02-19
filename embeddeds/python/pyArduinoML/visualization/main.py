@@ -9,7 +9,7 @@ else:
 def initArduino(serialPort):
     try:
         print("Trying to connect on serial port " + serialPort)
-        ser = serial.Serial(serialPort)
+        ser = serial.Serial(serialPort, baudrate=115200)
         print("Connection successful")
         return ser
     except:
