@@ -40,7 +40,7 @@ class Monitor():
         self.modes.append(mode)
 
     def setup(self) -> str:
-        return "\tSerial.begin(9600);"
+        return "\tSerial.begin(115200);"
 
     def loop(self) -> str:
         code = "Serial.write(\""
