@@ -51,16 +51,16 @@ void setup() { %s """ % ("\n".join(map(lambda b: b.declare(), self.bricks)),
 void (*functionPtr)() = mode_%s;
 int state = LOW; int prev = HIGH;
 char str[4];
-long time = 0; long debounce = 200;
+long time = 0; long timeLastDebug = 0;long debounce = 200;
 
 %s
-void loop() { (*functionPtr)(); """ % (self.modes[0].name,
+void loop() { (*functionPtr)(); if (millis() - timeLastDebug > 10) {""" % (self.modes[0].name,
                                   "\n".join(map(lambda m: m.setup(), self.modes)))
 
 
         if self.monitor is not None:
             rtr += self.monitor.loop()
-        rtr += "}" 
+        rtr += "timeLastDebug = millis();}}" 
 
         rtr += """int digitalReadOutputPin(uint8_t pin)
         {
