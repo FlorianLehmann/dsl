@@ -27,7 +27,7 @@ class MockedSerial:
 def initArduino(serialPort):
     try:
         print("Trying to connect on serial port " + serialPort)
-        ser = serial.Serial(serialPort)
+        ser = serial.Serial(serialPort, baudrate=115200)
         print("Connection successful")
         return ser
     except:
@@ -37,19 +37,25 @@ def initArduino(serialPort):
 
 
 class Visualizer:
-    NUMBER_OF_VALUES = 100
-    INTERVAL = 1000
+    NUMBER_OF_VALUES = 10000
+    INTERVAL = 1
 
     def __init__(self, serialPort):
         self.serialPort = serialPort
-        self.serial = MockedSerial()
-        self.serial.flush()
+        self.serial = initArduino(serialPort)
+        self.serial.readline()
+
         self.traces = {}
 
     def _read_serial(self):
-        line = self.serial.readline().decode()
-        data = json.loads(line)
-        return data
+        try:
+            line = self.serial.readline().decode()
+            data = json.loads(line)
+            print(data['Bricks'][0])
+            return data
+        except Exception as e:
+            print(e)
+            return self._read_serial()
 
     def plot_brick(self, i, fig, brick, timestamp):
         brick_type = brick['type']
@@ -136,7 +142,7 @@ class Visualizer:
         data = self._read_serial()
         name = data['name']
         bricks = data['Bricks']
-        timestamp = data['timestamp']
+        timestamp = datetime.now()
 
         external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
         app = dash.Dash(name, external_stylesheets=external_stylesheets)
@@ -168,7 +174,7 @@ class Visualizer:
             name = data['name']
             bricks = data['Bricks']
             bricks = {brick['name']: brick for brick in bricks}
-            timestamp = data['timestamp']
+            timestamp = datetime.now()
 
             for trace in fig['data']:
                 x = trace['x']
@@ -186,7 +192,7 @@ class Visualizer:
 
 
 def main():
-    Visualizer("/dev/ttyASM0").start_app()
+    Visualizer("/dev/tty.usbmodem1411").start_app()
 
 
 if __name__ == '__main__':

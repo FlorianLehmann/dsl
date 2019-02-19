@@ -47,20 +47,20 @@ class Monitor():
         data = {}
         data['name'] = self.name
         if self.showStateMachine:
-            data['StateMachine'] = str([_mode_to_json(mode) for mode in self.modes])
+            data['StateMachine'] = [_mode_to_json(mode) for mode in self.modes]
         data['Bricks'] = []
 
         stack = []
         
         for i, (brick, mode) in enumerate(self.bricks):
             if isinstance(brick, DigitalSensor):
-                str_brick = { "type": "DigitalSensor", brick.name: "%", "mode": mode }
+                str_brick = { "type": "DigitalSensor", "name": brick.name, "value": "%", "mode": mode }
                 stack.append("itoa(digitalRead(" + str(brick.pin) +"), str,10)")
             elif isinstance(brick, AnalogSensor):
-                str_brick = { "type": "AnalogSensor", brick.name: "%", "mode": mode }
+                str_brick = { "type": "AnalogSensor", "name": brick.name, "value": "%", "mode": mode }
                 stack.append("itoa(analogRead(" + str(brick.pin) +"), str,10)")
             elif isinstance(brick, Actuator):
-                str_brick = { "type": "Actuator", brick.name: "%", "mode": mode }
+                str_brick = { "type": "Actuator", "name": brick.name, "value": "%", "mode": mode }
                 stack.append("itoa(digitalReadOutputPin(" + str(brick.pin) + "), str,10)")
             data['Bricks'].append(str_brick)
 
