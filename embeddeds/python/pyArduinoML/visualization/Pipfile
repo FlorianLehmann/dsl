@@ -14,6 +14,7 @@ dash-core-components = "*"
 dash-table = "*"
 dash-daq = "*"
 networkx = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.6"
