@@ -1,0 +1,34 @@
+application modes
+
+actuator led: 12
+sensor button: 9
+
+-> mode1 {
+    -> off {
+        led <= LOW
+        AFTER 500 => on
+    }
+
+    on {
+        led <= HIGH
+        AFTER 500 => off
+    }
+
+    button IS HIGH => mode2
+}
+
+mode2 {
+
+    -> on {
+        led <= HIGH
+        AFTER 2000 => on
+    }
+
+    off {
+        led <= HIGH
+        AFTER 2000 => off
+    }
+
+    button IS HIGH => mode1
+
+}
