@@ -22,6 +22,12 @@ Inside the pipenv virtual environment, run the following command to run the scen
 python -m pyArduinoML.antlr.main pyArduinoML/resources/led_button_and_time.arduinoml > simple_led.ino
 ```
 
+Still the pipenv virtual environment, run the following command to start a web server on `http://127.0.0.1:8050/` for the debugging visualization.
+
+```shell
+python -m pyArduinoML.visualization.visualization
+```
+
 If you're having trouble connecting to the arduino board with the visualization, try to alter the permissions on /dev/ttyACM0 (or whatever your serial port is) through this command : 
 
 ```shell
