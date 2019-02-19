@@ -17,13 +17,6 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
 
-class MockedSerial:
-    def flush(self):
-        pass
-
-    def readline(self):
-        return b"{\"name\": \"RedButton\", \"timestamp\": \"" + str(datetime.now()).encode() + b"\", \"StateMachine\": [{\"name\": \"day\", \"states\": [{\"name\": \"on\", \"transitions\": [{\"nextelement\": \"off\"}]}, {\"name\": \"alternate\", \"transitions\": [{\"nextelement\": \"on\"}, {\"nextelement\": \"off\"}, {\"nextelement\": \"on\"}]}, {\"name\": \"off\", \"transitions\": [{\"nextelement\": \"on\"}]}], \"transitions\": []}], \"Bricks\": [{\"type\": \"DigitalSensor\", \"name\": \"button\", \"value\": \"" + random.choice((b'HIGH', b'LOW')) + b"\", \"mode\": \"GRAPH\"}, {\"type\": \"AnalogicSensor\", \"name\": \"radio\", \"value\": " + str(random.randrange(100)).encode() + b", \"mode\": \"GRAPH\"}]}"
-
 
 def initArduino(serialPort):
     try:
