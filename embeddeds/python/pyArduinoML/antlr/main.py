@@ -28,7 +28,6 @@ def export_to_code(app):
  
 
 def main(argv):
-    print('\n\nRunning the ANTLR compiler for ArduinoML\n')
     filename = argv[1]
     stream = read_stream(filename)
     app = build_model(stream)
