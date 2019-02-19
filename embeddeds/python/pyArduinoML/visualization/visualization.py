@@ -38,8 +38,8 @@ def initArduino(serialPort):
 
 
 class Visualizer:
-    NUMBER_OF_VALUES = 1000
-    INTERVAL = 10
+    NUMBER_OF_VALUES = 20
+    INTERVAL = 50
 
     def __init__(self, serialPort):
         self.serialPort = serialPort
@@ -188,7 +188,7 @@ class Visualizer:
         @app.callback(Output('state-machine', 'figure'), [Input('interval-component', 'n_intervals')], [State('state-machine', 'figure')])
         def update_plot(n, fig):
             data = self._read_serial()
-            return self.plot_state_machine(data)
+            return fig
 
         app.run_server(debug=True)
 
