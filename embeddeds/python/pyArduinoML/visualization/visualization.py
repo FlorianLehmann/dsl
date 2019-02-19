@@ -38,7 +38,7 @@ def initArduino(serialPort):
 
 
 class Visualizer:
-    NUMBER_OF_VALUES = 100
+    NUMBER_OF_VALUES = 1000
     INTERVAL = 10
 
     def __init__(self, serialPort):
@@ -47,6 +47,7 @@ class Visualizer:
         self.serial.reset_input_buffer()
         self.lock = threading.Lock()
         self.traces = {}
+        self.data = None
 
     def _read_serial(self):
         try:
@@ -54,10 +55,11 @@ class Visualizer:
                 self.lock.acquire()
                 line = self.serial.readline()
                 self.lock.release()
-                return json.loads(line)
+                data = json.loads(line)
+                self.data = data
         except Exception as e:
-            print(e)
-        return None
+            pass
+        return self.data
 
     def plot_brick(self, i, fig, brick, timestamp):
         brick_type = brick['type']
@@ -81,66 +83,61 @@ class Visualizer:
         fig.append_trace(trace, i, 1)
         return brick['name'], trace
 
-    def plot_state_machine(self, modes):
+    def plot_state_machine(self, data):
+        modes = data['StateMachine']
+
         g = nx.DiGraph()
         for mode in modes:
-            g.add_node(mode['name'])
-            for transition in mode['transitions']:
-                g.add_edge(mode['name'], transition['nextelement'])
             for state in mode['states']:
                 g.add_node(state['name'])
                 for transition in state['transitions']:
                     g.add_edge(state['name'], transition['nextelement'])
-            h = g.subgraph([state['name'] for state in mode['states']])
 
         pos = nx.circular_layout(g)
-
-        edge_trace = go.Scatter(
-            x=[],
-            y=[],
-            line=dict(width=2, color='#888'),
-            hoverinfo='none',
-            mode='lines'
-        )
     
         X = []
         Y = []
         T = []
+        C = []
         for key, (x, y) in pos.items():
             X.append(x)
             Y.append(y)
             T.append(key)
+            if key == data['current_state']:
+                C.append('rgb(50,200,250)')
+            else:
+                C.append('rgb(50,50,50)')
         node_trace = go.Scatter(
             x=X,
             y=Y,
             text=T,
-            mode='markers',
+            mode='markers+text',
+            textposition='top center',
             marker=dict(
                 symbol='circle',
                 size=20,
-                colorscale='Viridis',
+                color=C,
                 line=dict(color='rgb(50,50,50)', width=0.5)
             ),
         )
 
         fig = go.Figure(
-            data=[edge_trace, node_trace],
+            data=[node_trace],
             layout=go.Layout(
-                title='State Machine',
+                title=data['current_mode'],
                 titlefont=dict(size=16),
                 showlegend=False,
                 hovermode='closest',
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                annotations=[dict(x=pos[b][0], y=pos[b][1], xref='x', yref='y', axref='x', ayref='y', ax=pos[a][0] - pos[b][0], ay=pos[a][1] - pos[b][1], arrowhead=2, arrowsize=1) for a, b in g.edges()]
+                annotations=[dict(x=pos[b][0], y=pos[b][1], xref='x', yref='y', axref='x', ayref='y', ax=pos[a][0], ay=pos[a][1], arrowhead=2, arrowsize=1) for a, b in g.edges()]
             )
         )
 
         return fig
 
     def start_app(self):
-        data = None
-        while data is None:
+        while self.data is None:
             data = self._read_serial()
         name = data['name']
         bricks = data['Bricks']
@@ -157,7 +154,7 @@ class Visualizer:
         self.traces = dict(self.plot_brick(i, fig, brick, timestamp)
                            for i, brick in enumerate(bricks, 1))
 
-        state_machine = self.plot_state_machine(data['StateMachine'])
+        state_machine = self.plot_state_machine(data)
 
         app.layout = html.Div([
             html.H4(name),
@@ -173,33 +170,25 @@ class Visualizer:
         @app.callback(Output('bricks', 'figure'), [Input('interval-component', 'n_intervals')], [State('bricks', 'figure')])
         def update_plot(n, fig):
             data = self._read_serial()
-            print(data)
             timestamp = datetime.now()
-            if data is None:
-                for trace in fig['data']:
-                    x = trace['x']
-                    y = trace['y']
-                    y.append(y[-1])
-                    if len(y) > self.NUMBER_OF_VALUES:
-                        y.pop(0)
-                    x.append(timestamp)
-                    if len(x) > self.NUMBER_OF_VALUES:
-                        x.pop(0)
-            else:
-                bricks = data['Bricks']
-                bricks = {brick['name']: brick for brick in bricks}
-                
-                for trace in fig['data']:
-                    x = trace['x']
-                    y = trace['y']
-                    brick = bricks[trace['name']]
-                    y.append(brick['value'])
-                    if len(y) > self.NUMBER_OF_VALUES:
-                        y.pop(0)
-                    x.append(timestamp)
-                    if len(x) > self.NUMBER_OF_VALUES:
-                        x.pop(0)
+            bricks = data['Bricks']
+            bricks = {brick['name']: brick for brick in bricks}
+            for trace in fig['data']:
+                x = trace['x']
+                y = trace['y']
+                brick = bricks[trace['name']]
+                y.append(brick['value'])
+                if len(y) > self.NUMBER_OF_VALUES:
+                    y.pop(0)
+                x.append(timestamp)
+                if len(x) > self.NUMBER_OF_VALUES:
+                    x.pop(0)
             return fig
+
+        @app.callback(Output('state-machine', 'figure'), [Input('interval-component', 'n_intervals')], [State('state-machine', 'figure')])
+        def update_plot(n, fig):
+            data = self._read_serial()
+            return self.plot_state_machine(data)
 
         app.run_server(debug=True)
 

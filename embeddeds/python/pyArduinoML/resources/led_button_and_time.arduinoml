@@ -15,14 +15,4 @@ actuator led: 12 DEBUG GRAPH
       led <= HIGH
       AFTER 500 => standby
     }
-
-    off {
-        led <= LOW
-        AFTER 500 => end
-    }
-
-    end {
-      led <= HIGH
-      AFTER 500 AND button IS LOW => standby
-    }
 }

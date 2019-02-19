@@ -69,6 +69,10 @@ if (millis() - debugger > 10) {
         
         data['timestamp'] = '%'
         stack.append('millis()')
+        data['current_mode'] = '%'
+        stack.append('current_mode')
+        data['current_state'] = '%'
+        stack.append('current_state')
 
         code += json.dumps(data).replace('\"', '\\"')
         code += "\"));\n\t}"

@@ -51,11 +51,16 @@ void setup() {
 void (*functionPtr)() = mode_%s;
 int state = LOW; int prev = HIGH;
 long time = 0; long debounce = 200; long debugger = 0;
+String current_mode = String("%s"); String current_state = String("%s");
 
 %s
 void loop() {
     (*functionPtr)();
-""" % (self.modes[0].name, "\n\t".join(map(lambda m: m.setup(), self.modes)))
+""" % (
+    self.modes[0].name,
+    self.modes[0].name,
+    self.modes[0].states[0].name,
+    "\n\t".join(map(lambda m: m.setup(), self.modes)))
 
 
         if self.monitor is not None:

@@ -16,7 +16,13 @@ class Mode(NamedElement):
         """
         rtr = ""
 
-        rtr += "void mode_%s() { functionPtr = mode_%s_state_%s;}\n"%(self.name, self.name, self.states[0].name)
+        rtr += """void mode_%s() {
+    functionPtr = mode_%s_state_%s;
+    current_mode = String("%s");
+    current_state = String("%s");
+}
+
+""" % (self.name, self.name, self.states[0].name, self.name, self.states[0].name)
 
         for state in self.states:
             rtr += "void mode_%s_state_%s() {\n" % (self.name, state.name)

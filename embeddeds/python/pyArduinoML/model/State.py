@@ -24,7 +24,7 @@ class State(NamedElement):
         self.actions: tuple = actions
 
     def getContent(self, tabNb = 1, complementary = ""):
-        rtr = ""
+        rtr = "\t" * tabNb + f'current_state = String("{self.name}");\n' 
 
         for action in self.actions:
             rtr += "\t"*tabNb + "digitalWrite(%s, %s);\n" % (str(action.value), action.brick.name)
