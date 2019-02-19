@@ -40,10 +40,13 @@ class Monitor():
         self.modes.append(mode)
 
     def setup(self) -> str:
-        return "\tSerial.begin(115200);"
+        return "Serial.begin(115200);"
 
     def loop(self) -> str:
-        code = "Serial.write(\""
+        code = """
+if (millis() - debugger > 10) {
+    debugger = millis();
+    Serial.println(String(\""""
         data = {}
         data['name'] = self.name
         if self.showStateMachine:
@@ -55,19 +58,22 @@ class Monitor():
         for i, (brick, mode) in enumerate(self.bricks):
             if isinstance(brick, DigitalSensor):
                 str_brick = { "type": "DigitalSensor", "name": brick.name, "value": "%", "mode": mode }
-                stack.append("itoa(digitalRead(" + str(brick.pin) +"), str,10)")
+                stack.append("digitalRead(" + str(brick.pin) +")")
             elif isinstance(brick, AnalogSensor):
                 str_brick = { "type": "AnalogSensor", "name": brick.name, "value": "%", "mode": mode }
-                stack.append("itoa(analogRead(" + str(brick.pin) +"), str,10)")
+                stack.append("analogRead(" + str(brick.pin) +")")
             elif isinstance(brick, Actuator):
                 str_brick = { "type": "Actuator", "name": brick.name, "value": "%", "mode": mode }
-                stack.append("itoa(digitalReadOutputPin(" + str(brick.pin) + "), str,10)")
+                stack.append("digitalRead(" + str(brick.pin) + ")")
             data['Bricks'].append(str_brick)
+        
+        data['timestamp'] = '%'
+        stack.append('millis()')
 
         code += json.dumps(data).replace('\"', '\\"')
-        code += "\\n\");"
+        code += "\"));\n\t}"
 
         for i in  stack:
-            code = code.replace("%", '"); Serial.write(' + str(i) + '); Serial.write("', 1)
+            code = code.replace("%", '") + String(' + str(i) + ') + String("', 1)
 
         return code

@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 import json
+import threading
 
 import serial
 
@@ -27,7 +28,7 @@ class MockedSerial:
 def initArduino(serialPort):
     try:
         print("Trying to connect on serial port " + serialPort)
-        ser = serial.Serial(serialPort, baudrate=115200)
+        ser = serial.Serial(serialPort, dsrdtr=True, baudrate=115200)
         print("Connection successful")
         return ser
     except:
@@ -37,32 +38,30 @@ def initArduino(serialPort):
 
 
 class Visualizer:
-    NUMBER_OF_VALUES = 10000
-    INTERVAL = 1
+    NUMBER_OF_VALUES = 100
+    INTERVAL = 10
 
     def __init__(self, serialPort):
         self.serialPort = serialPort
         self.serial = initArduino(serialPort)
-        self.serial.readline()
-
+        self.serial.reset_input_buffer()
+        self.lock = threading.Lock()
         self.traces = {}
 
     def _read_serial(self):
         try:
-            line = self.serial.readline().decode()
-            data = json.loads(line)
-            print(data['Bricks'][0])
-            return data
+            if not self.lock.locked():
+                self.lock.acquire()
+                line = self.serial.readline()
+                self.lock.release()
+                return json.loads(line)
         except Exception as e:
             print(e)
-            return self._read_serial()
+        return None
 
     def plot_brick(self, i, fig, brick, timestamp):
         brick_type = brick['type']
         yaxis = fig['layout'][f'yaxis{i}']
-        if brick_type == 'DigitalSensor':
-            yaxis.update(categoryorder='array', categoryarray=[
-                         'LOW', 'HIGH'], type='category')
         if brick_type == 'AnalogicSensor':
             yaxis = dict(
                 range=[0, 10],
@@ -111,7 +110,6 @@ class Visualizer:
             X.append(x)
             Y.append(y)
             T.append(key)
-        
         node_trace = go.Scatter(
             x=X,
             y=Y,
@@ -133,13 +131,17 @@ class Visualizer:
                 showlegend=False,
                 hovermode='closest',
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                annotations=[dict(x=pos[b][0], y=pos[b][1], xref='x', yref='y', axref='x', ayref='y', ax=pos[a][0] - pos[b][0], ay=pos[a][1] - pos[b][1], arrowhead=2, arrowsize=1) for a, b in g.edges()]
             )
         )
+
         return fig
 
     def start_app(self):
-        data = self._read_serial()
+        data = None
+        while data is None:
+            data = self._read_serial()
         name = data['name']
         bricks = data['Bricks']
         timestamp = datetime.now()
@@ -171,28 +173,39 @@ class Visualizer:
         @app.callback(Output('bricks', 'figure'), [Input('interval-component', 'n_intervals')], [State('bricks', 'figure')])
         def update_plot(n, fig):
             data = self._read_serial()
-            name = data['name']
-            bricks = data['Bricks']
-            bricks = {brick['name']: brick for brick in bricks}
+            print(data)
             timestamp = datetime.now()
-
-            for trace in fig['data']:
-                x = trace['x']
-                y = trace['y']
-                brick = bricks[trace['name']]
-                y.append(brick['value'])
-                if len(y) > self.NUMBER_OF_VALUES:
-                    y.pop(0)
-                x.append(timestamp)
-                if len(x) > self.NUMBER_OF_VALUES:
-                    x.pop(0)
+            if data is None:
+                for trace in fig['data']:
+                    x = trace['x']
+                    y = trace['y']
+                    y.append(y[-1])
+                    if len(y) > self.NUMBER_OF_VALUES:
+                        y.pop(0)
+                    x.append(timestamp)
+                    if len(x) > self.NUMBER_OF_VALUES:
+                        x.pop(0)
+            else:
+                bricks = data['Bricks']
+                bricks = {brick['name']: brick for brick in bricks}
+                
+                for trace in fig['data']:
+                    x = trace['x']
+                    y = trace['y']
+                    brick = bricks[trace['name']]
+                    y.append(brick['value'])
+                    if len(y) > self.NUMBER_OF_VALUES:
+                        y.pop(0)
+                    x.append(timestamp)
+                    if len(x) > self.NUMBER_OF_VALUES:
+                        x.pop(0)
             return fig
 
         app.run_server(debug=True)
 
 
 def main():
-    Visualizer("/dev/tty.usbmodem1411").start_app()
+    Visualizer("/dev/ttyACM0").start_app()
 
 
 if __name__ == '__main__':
