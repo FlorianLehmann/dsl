@@ -66,7 +66,7 @@ class Listener(ArduinomlListener):
         super().__init__()
         self.app = None
         self.name = None
-        self.monitor = Monitor()
+        self.monitor = None
         self.bricks = []
         self.modes = []
 
@@ -81,6 +81,7 @@ class Listener(ArduinomlListener):
 
     def enterDeclaration(self, ctx:ArduinomlParser.DeclarationContext):
         self.name = ctx.name.text
+        self.monitor = Monitor(self.name)
 
     def enterSensor(self, ctx:ArduinomlParser.SensorContext):
         sensor = DigitalSensor(ctx.location().identifier.text, int(ctx.location().port.text))

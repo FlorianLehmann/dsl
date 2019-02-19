@@ -21,7 +21,7 @@ class MockedSerial:
         pass
 
     def readline(self):
-        return b"{\"StateMachine\": \"<dotfile>\", \"timestamp\": \"" + str(datetime.now()).encode() + b"\", \"name\": \"RedButton\", \"Bricks\": [{\"type\": \"DigitalSensor\", \"name\": \"button\", \"value\": \"" + random.choice((b'HIGH', b'LOW')) + b"\", \"mode\": \"GRAPH\"}, {\"type\": \"AnalogicSensor\", \"name\": \"radio\", \"value\": " + str(random.randrange(100)).encode() + b", \"mode\": \"GRAPH\"}]}"
+        return b"{\"name\": \"RedButton\", \"timestamp\": \"" + str(datetime.now()).encode() + b"\", \"StateMachine\": [{\"name\": \"day\", \"states\": [{\"name\": \"on\", \"transitions\": [{\"nextelement\": \"off\"}]}, {\"name\": \"alternate\", \"transitions\": [{\"nextelement\": \"on\"}, {\"nextelement\": \"off\"}, {\"nextelement\": \"on\"}]}, {\"name\": \"off\", \"transitions\": [{\"nextelement\": \"on\"}]}], \"transitions\": []}], \"Bricks\": [{\"type\": \"DigitalSensor\", \"name\": \"button\", \"value\": \"" + random.choice((b'HIGH', b'LOW')) + b"\", \"mode\": \"GRAPH\"}, {\"type\": \"AnalogicSensor\", \"name\": \"radio\", \"value\": " + str(random.randrange(100)).encode() + b", \"mode\": \"GRAPH\"}]}"
 
 
 def initArduino(serialPort):
@@ -76,8 +76,61 @@ class Visualizer:
         fig.append_trace(trace, i, 1)
         return brick['name'], trace
 
-    def plot_state_machine(self, state_machine):
-        return create_graph()
+    def plot_state_machine(self, modes):
+        g = nx.DiGraph()
+        for mode in modes:
+            g.add_node(mode['name'])
+            for transition in mode['transitions']:
+                g.add_edge(mode['name'], transition['nextelement'])
+            for state in mode['states']:
+                g.add_node(state['name'])
+                for transition in state['transitions']:
+                    g.add_edge(state['name'], transition['nextelement'])
+            h = g.subgraph([state['name'] for state in mode['states']])
+
+        pos = nx.circular_layout(g)
+
+        edge_trace = go.Scatter(
+            x=[],
+            y=[],
+            line=dict(width=2, color='#888'),
+            hoverinfo='none',
+            mode='lines'
+        )
+    
+        X = []
+        Y = []
+        T = []
+        for key, (x, y) in pos.items():
+            X.append(x)
+            Y.append(y)
+            T.append(key)
+        
+        node_trace = go.Scatter(
+            x=X,
+            y=Y,
+            text=T,
+            mode='markers',
+            marker=dict(
+                symbol='circle',
+                size=20,
+                colorscale='Viridis',
+                line=dict(color='rgb(50,50,50)', width=0.5)
+            ),
+        )
+
+        fig = go.Figure(
+            data=[edge_trace, node_trace],
+            layout=go.Layout(
+                title='State Machine',
+                titlefont=dict(size=16),
+                showlegend=False,
+                hovermode='closest',
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
+            )
+        )
+        return fig
 
     def start_app(self):
         data = self._read_serial()
@@ -130,75 +183,6 @@ class Visualizer:
             return fig
 
         app.run_server(debug=True)
-
-
-def create_graph():
-    G = nx.random_geometric_graph(200, 0.125)
-    pos = nx.get_node_attributes(G, 'pos')
-    dmin = 1
-    ncenter = 0
-    for n in pos:
-        x, y = pos[n]
-        d = (x-0.5)**2+(y-0.5)**2
-        if d < dmin:
-            ncenter = n
-            dmin = d
-    p = nx.single_source_shortest_path_length(G, ncenter)
-    edge_trace = go.Scatter(
-        x=[],
-        y=[],
-        line=dict(width=0.5, color='#888'),
-        hoverinfo='none',
-        mode='lines')
-    for edge in G.edges():
-        x0, y0 = G.node[edge[0]]['pos']
-        x1, y1 = G.node[edge[1]]['pos']
-        edge_trace['x'] += tuple([x0, x1, None])
-        edge_trace['y'] += tuple([y0, y1, None])
-    node_trace = go.Scatter(
-        x=[],
-        y=[],
-        text=[],
-        mode='markers',
-        hoverinfo='text',
-        marker=dict(
-            showscale=True,
-            # colorscale options
-            # 'Greys' | 'YlGnBu' | 'Greens' | 'YlOrRd' | 'Bluered' | 'RdBu' |
-            # 'Reds' | 'Blues' | 'Picnic' | 'Rainbow' | 'Portland' | 'Jet' |
-            # 'Hot' | 'Blackbody' | 'Earth' | 'Electric' | 'Viridis' |
-            colorscale='YlGnBu',
-            reversescale=True,
-            color=[],
-            size=10,
-            colorbar=dict(
-                thickness=15,
-                title='Node Connections',
-                xanchor='left',
-                titleside='right'
-            ),
-            line=dict(width=2)))
-
-    for node in G.nodes():
-        x, y = G.node[node]['pos']
-        node_trace['x'] += tuple([x])
-        node_trace['y'] += tuple([y])
-
-    for node, adjacencies in enumerate(G.adjacency()):
-        node_trace['marker']['color'] += tuple([len(adjacencies[1])])
-        node_info = '# of connections: '+str(len(adjacencies[1]))
-        node_trace['text'] += tuple([node_info])
-
-    fig = go.Figure(data=[edge_trace, node_trace],
-                    layout=go.Layout(
-        title='<br>Network graph made with Python',
-        titlefont=dict(size=16),
-        showlegend=False,
-        hovermode='closest',
-        margin=dict(b=20, l=5, r=5, t=40),
-        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)))
-    return fig
 
 
 def main():
