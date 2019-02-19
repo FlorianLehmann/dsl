@@ -1,8 +1,10 @@
 grammar Arduinoml;
 
-root                        :   declaration bricks modes EOF;
+root                        :   declaration showStateMachine? bricks modes EOF;
 
 declaration                 :   'application' name=IDENTIFIER;
+
+showStateMachine            :   'SHOW STATE MACHINE';
 
 bricks                      :   (sensor|actuator)+;
     sensor                  :   'sensor'   location debug?;
@@ -23,7 +25,7 @@ states                      :   customState* initialState customState*;
     expression              :   expression operator=OPERATOR expression | comparison;
     comparison              :   analogicComparison | discreteComparison | temporalComparison;
     analogicComparison      :   trigger=IDENTIFIER operator=ANALOGIC_OPERATOR threshold=INTEGER;
-    discreteComparison      :   trigger=IDENTIFIER 'is' value=SIGNAL;
+    discreteComparison      :   trigger=IDENTIFIER 'IS' value=SIGNAL;
     temporalComparison      :   'AFTER' delay=INTEGER;
 
 

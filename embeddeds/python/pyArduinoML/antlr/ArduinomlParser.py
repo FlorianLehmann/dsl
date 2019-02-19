@@ -87,7 +87,7 @@ class ArduinomlParser ( Parser ):
 
     literalNames = [ "<INVALID>", "'application'", "'SHOW STATE MACHINE'", 
                      "'sensor'", "'actuator'", "':'", "'DEBUG'", "'{'", 
-                     "'}'", "'=>'", "'<='", "'is'", "'AFTER'", "<INVALID>", 
+                     "'}'", "'=>'", "'<='", "'IS'", "'AFTER'", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "'->'", "'AND'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 

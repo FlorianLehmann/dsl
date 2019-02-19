@@ -57,7 +57,7 @@ def serializedATN():
         buf.write("F\2\2kl\7G\2\2lm\7D\2\2mn\7W\2\2no\7I\2\2o\16\3\2\2\2")
         buf.write("pq\7}\2\2q\20\3\2\2\2rs\7\177\2\2s\22\3\2\2\2tu\7?\2\2")
         buf.write("uv\7@\2\2v\24\3\2\2\2wx\7>\2\2xy\7?\2\2y\26\3\2\2\2z{")
-        buf.write("\7k\2\2{|\7u\2\2|\30\3\2\2\2}~\7C\2\2~\177\7H\2\2\177")
+        buf.write("\7K\2\2{|\7U\2\2|\30\3\2\2\2}~\7C\2\2~\177\7H\2\2\177")
         buf.write("\u0080\7V\2\2\u0080\u0081\7G\2\2\u0081\u0082\7T\2\2\u0082")
         buf.write("\32\3\2\2\2\u0083\u0089\t\2\2\2\u0084\u0085\7\63\2\2\u0085")
         buf.write("\u0089\7\63\2\2\u0086\u0087\7\63\2\2\u0087\u0089\7\64")
@@ -136,7 +136,7 @@ class ArduinomlLexer(Lexer):
 
     literalNames = [ "<INVALID>",
             "'application'", "'SHOW STATE MACHINE'", "'sensor'", "'actuator'", 
-            "':'", "'DEBUG'", "'{'", "'}'", "'=>'", "'<='", "'is'", "'AFTER'", 
+            "':'", "'DEBUG'", "'{'", "'}'", "'=>'", "'<='", "'IS'", "'AFTER'", 
             "'->'", "'AND'" ]
 
     symbolicNames = [ "<INVALID>",
