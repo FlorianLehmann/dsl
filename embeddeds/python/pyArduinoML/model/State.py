@@ -27,7 +27,7 @@ class State(NamedElement):
         rtr = ""
 
         for action in self.actions:
-            rtr += "\t"*tabNb + "digitalWrite(%s, %s);\n" % (action.brick.name, str(action.value))
+            rtr += "\t"*tabNb + "digitalWrite(%s, %s);\n" % (str(action.value), action.brick.name)
             rtr += "\t"*tabNb + "boolean guard =  millis() - time > debounce;\n"
         # generate code for the transition
 
