@@ -84,9 +84,9 @@ class Visualizer:
         g = nx.DiGraph()
         for mode in modes:
             for state in mode['states']:
-                g.add_node(state['name'])
+                g.add_node(f"{state['name']} ({mode['name']})")
                 for transition in state['transitions']:
-                    g.add_edge(state['name'], transition['nextelement'])
+                    g.add_edge(f"{state['name']} ({mode['name']})", f"{transition['nextelement']} ({mode['name']})")
 
         pos = nx.circular_layout(g)
     
@@ -98,10 +98,10 @@ class Visualizer:
             X.append(x)
             Y.append(y)
             T.append(key)
-            if key == data['current_state']:
+            if key == f"{data['current_state']} ({data['current_mode']})":
                 C.append('rgb(50,200,250)')
             else:
-                C.append('rgb(50,50,50)')
+                C.append('rgb(150,150,150)')
         node_trace = go.Scatter(
             x=X,
             y=Y,
@@ -189,6 +189,14 @@ class Visualizer:
         @app.callback(Output('state-machine', 'figure'), [Input('interval-component', 'n_intervals')], [State('state-machine', 'figure')])
         def update_plot(n, fig):
             data = self._read_serial()
+            scatter = fig['data'][0]
+            T = scatter['text']
+            C = scatter['marker']['color']
+            for i, t in enumerate(T):
+                if t == f"{data['current_state']} ({data['current_mode']})":
+                    C[i] = 'rgb(50,200,250)'
+                else:
+                    C[i] = 'rgb(150,150,150)'
             return fig
 
         app.run_server(debug=True)
