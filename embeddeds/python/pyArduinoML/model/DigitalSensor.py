@@ -18,4 +18,4 @@ class DigitalSensor(Sensor):
 
         :return: String
         """
-        return "\tpinMode(%s, INPUT);" % self.name
+        return "pinMode(%s, INPUT);" % self.name

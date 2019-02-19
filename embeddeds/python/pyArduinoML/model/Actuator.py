@@ -25,4 +25,4 @@ class Actuator(Brick):
 
         :return: String
         """
-        return "\tpinMode(%s, OUTPUT);" % self.name
+        return "pinMode(%s, OUTPUT);" % self.name
