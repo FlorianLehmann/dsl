@@ -26,17 +26,24 @@ class Monitor():
         if self.showStateMachine:
             data['StateMachine'] = '<dotfile>'
         data['Bricks'] = []
+
+        stack = []
         
         for i, (brick, mode) in enumerate(self.bricks):
             if isinstance(brick, DigitalSensor):
-                brick = { "type": "DigitalSensor", brick.name: "digitalRead(" + str(brick.pin) +")", "mode": mode }
+                str_brick = { "type": "DigitalSensor", brick.name: "%", "mode": mode }
+                stack.append("digitalRead(" + str(brick.pin) +")")
             elif isinstance(brick, AnalogSensor):
                 pass
             elif isinstance(brick, Actuator):
-                brick = { "type": "Actuator", brick.name: brick.pin, "mode": mode }
-            data['Bricks'].append(brick)
-        
+                str_brick = { "type": "Actuator", brick.name: "%", "mode": mode }
+                stack.append("digitalReadOutputPin(" + str(brick.pin) + ")")
+            data['Bricks'].append(str_brick)
+
         code += json.dumps(data).replace('\"', '\\"')
         code += "\");"
+
+        for i in  stack:
+            code = code.replace("%", '"); Serial.write(' + str(i) + '); Serial.write("', 1)
 
         return code
