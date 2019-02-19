@@ -1,4 +1,4 @@
-<syntax> ::= <declaration> <showStateMachine> <bricks> <modes>
+<syntax> ::= <declaration> [<showStateMachine>] <bricks> <modes>
 
 <declaration> ::= application <identifier>
 
