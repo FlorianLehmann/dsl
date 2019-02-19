@@ -25,10 +25,10 @@ class State(NamedElement):
 
     def getContent(self, tabNb = 1, complementary = ""):
         rtr = "\t" * tabNb + f'current_state = String("{self.name}");\n' 
-
+        rtr += "\t" * tabNb + "boolean guard =  millis() - time > debounce;\n"
         for action in self.actions:
             rtr += "\t"*tabNb + "digitalWrite(%s, %s);\n" % (str(action.value), action.brick.name)
-            rtr += "\t"*tabNb + "boolean guard =  millis() - time > debounce;\n"
+            
         # generate code for the transition
 
         for transition in self.transitions:
