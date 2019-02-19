@@ -1,0 +1,16 @@
+application simpleLed
+
+SHOW STATE MACHINE
+
+actuator led: 12 DEBUG GRAPH
+
+-> day {
+    -> on {
+        led <= HIGH
+        AFTER 500 => off
+    }
+    off {
+        led <= LOW
+        AFTER 500 => on
+    }
+}

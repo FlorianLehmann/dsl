@@ -1,0 +1,18 @@
+application simpleLed
+
+SHOW STATE MACHINE
+sensor button: 9 DEBUG GRAPH
+
+actuator led: 12 DEBUG GRAPH
+
+-> day {
+    -> standby {
+        led <= LOW
+        AFTER 500 AND button IS HIGH => on
+    }
+
+    on {
+      led <= HIGH
+      AFTER 500 => standby
+    }
+}

@@ -1,11 +1,8 @@
+from enum import Enum
 
-LESS_THAN = 0
-MORE_THAN = 1
+class AnalogicOperator(Enum):
+    LESS_THAN = '<'
+    MORE_THAN = '>'
 
-def value(operator):
-    
-    if operator == LESS_THAN:
-        return "<"
-    if signal == MORE_THAN:
-        return ">"
-    return ""
+    def __str__(self) -> str:
+        return self.value

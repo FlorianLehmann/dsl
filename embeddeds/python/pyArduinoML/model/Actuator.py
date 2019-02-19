@@ -8,7 +8,7 @@ class Actuator(Brick):
 
     """
 
-    def __init__(self, name, pin):
+    def __init__(self, name: str, pin: int):
         """
         Constructor.
 
@@ -25,4 +25,4 @@ class Actuator(Brick):
 
         :return: String
         """
-        return "\tpinMode(%s, OUTPUT);" % self.name
+        return "pinMode(%s, OUTPUT);" % self.name

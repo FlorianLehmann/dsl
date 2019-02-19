@@ -1,0 +1,28 @@
+application redButton
+
+SHOW STATE MACHINE
+
+
+sensor button: 9 DEBUG TEXT
+actuator led: 12 DEBUG GRAPH
+
+
+-> day {
+    -> on {
+        led <= HIGH
+        button is LOW => off
+    }
+
+    alternate {
+        led <= LOW
+        button < 100 => on
+        button is LOW => off
+        button is HIGH => on
+    }
+
+
+    off {
+        led <= LOW
+        AFTER 500 => on
+    }
+}

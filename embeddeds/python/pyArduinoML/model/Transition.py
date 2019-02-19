@@ -5,16 +5,16 @@ class Transition :
     A transition between two states.
     """
 
-    def __init__(self, nextstate, comparisons = []):
+    def __init__(self, nextelement: 'State', comparisons: tuple = ()):
         self.comparisons = comparisons
-        self.nextstate = nextstate
+        self.nextelement = nextelement
 
-    def setup(self):
-        res = "\tif ("
+    def setup(self, tabNb = 1, complementary = "state_", complementaryEnd = ""):
+        res = "\t"*tabNb + "if ("
         
         for comparison in self.comparisons:
             res += comparison.setup() + " && "
         
-        res += "guard) {\n\t\ttime = millis(); state_%s();\n\t}" % self.nextstate.name
+        res += "guard) {\n" + "\t"*(tabNb+1) + "time = millis(); functionPtr = %s%s%s;\n" % (complementary, self.nextelement.name, complementaryEnd) + "\t"*tabNb +"}"
 
         return res

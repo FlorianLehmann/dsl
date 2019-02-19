@@ -1,15 +1,18 @@
-<syntax> ::= <declaration> <bricks> <modes>
+<syntax> ::= <declaration> [<showStateMachine>] <bricks> <modes>
 
 <declaration> ::= application <identifier>
+
+<showStateMachine> ::= SHOW STATE MACHINE
 
 <modes> ::= <initialMode> { <mode> }
 <initialMode> ::= -> <mode>
 <mode> ::= <identifier> "{" <states> { <transition> } "}"
 
 <bricks> ::= { <sensor> | <actuator> }
-<sensor> ::= sensor <location>
-<actuator> ::= actuator <location>
+<sensor> ::= sensor <location> <debug>
+<actuator> ::= actuator <location> [<debug>]
 <location> ::= <identifier> : <portNumber>
+<debug> ::= DEBUG (TEXT | GRAPH)
 
 <states> ::= <initialState> { <state> }
 <initialState> ::= -> <state>

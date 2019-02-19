@@ -1,7 +1,8 @@
 __author__ = 'pascalpoizat'
 
 from pyArduinoML.model.NamedElement import NamedElement
-import SIGNAL
+from pyArduinoML.model import SIGNAL
+from .Transition import Transition
 
 class State(NamedElement):
     """
@@ -9,7 +10,7 @@ class State(NamedElement):
 
     """
 
-    def __init__(self, name, actions=(), transition=None):
+    def __init__(self, name: str, actions: tuple=(), transitions: tuple = ()):
         """
         Constructor.
 
@@ -19,16 +20,21 @@ class State(NamedElement):
         :return:
         """
         NamedElement.__init__(self, name)
-        self.transition = transition
-        self.actions = actions
+        self.transitions: tuple = transitions
+        self.actions: tuple = actions
 
-    def settransition(self, transition):
-        """
-        Sets the transition of the state
-        :param transition: Transition
-        :return:
-        """
-        self.transition = transition
+    def getContent(self, tabNb = 1, complementary = ""):
+        rtr = "\t" * tabNb + f'current_state = String("{self.name}");\n' 
+
+        for action in self.actions:
+            rtr += "\t"*tabNb + "digitalWrite(%s, %s);\n" % (str(action.value), action.brick.name)
+            rtr += "\t"*tabNb + "boolean guard =  millis() - time > debounce;\n"
+        # generate code for the transition
+
+        for transition in self.transitions:
+            rtr += transition.setup(tabNb, complementary) + "\n"
+
+        return rtr
 
     def setup(self):
         """
@@ -38,13 +44,9 @@ class State(NamedElement):
         """
         rtr = ""
         rtr += "void state_%s() {\n" % self.name
-        # generate code for state actions
-        for action in self.actions:
-            rtr += "\tdigitalWrite(%s, %s);\n" % (action.brick.name, SIGNAL.value(action.value))
-            rtr += "\tboolean guard =  millis() - time > debounce;\n"
-        # generate code for the transition
-        transition = self.transition
-        rtr += transition.setup() + "else {\n\t\tstate_%s();\n\t}" % (self.name)
+        
+        rtr += self.getContent()
+        
         # end of state
         rtr += "\n}\n"
         return rtr

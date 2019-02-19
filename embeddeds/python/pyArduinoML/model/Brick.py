@@ -8,7 +8,7 @@ class Brick(NamedElement):
 
     """
 
-    def __init__(self, name, pin):
+    def __init__(self, name: str, pin: int):
         """
         Constructor.
 
@@ -17,7 +17,7 @@ class Brick(NamedElement):
         :return:
         """
         NamedElement.__init__(self, name)
-        self.pin = pin
+        self.pin: int = pin
 
     def declare(self):
         """
